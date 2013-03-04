@@ -29,7 +29,7 @@ _weapon = _weapons select 0;
 _magazintype= getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines") select 0;
 
 _detectrange=300;
-_humanitylimit=0;
+_humanitylimit=-2000;
 _humanity=0;
 _sleeptime=5;
 
@@ -84,12 +84,12 @@ while {alive _ai} do {
             // check if low on ammo & fuel
             _veh_weapons = weapons _vehicle;
             
-            if(_vehicle ammo (_veh_weapons select 0) < 51) then {
+            if(_vehicle ammo (_veh_weapons select 0) < 11) then {
                 _vehicle setVehicleAmmo 1;
                 if (SAR_DEBUG) then {diag_log "Vehicle new ammo";};
             };
             
-            if(fuel _vehicle < 0.8) then {
+            if(fuel _vehicle < 0.2) then {
                 _vehicle setFuel 1;
                 if (SAR_DEBUG) then {diag_log "Vehicle refueled";};
             };
