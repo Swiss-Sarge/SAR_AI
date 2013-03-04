@@ -5,9 +5,11 @@ SAR AI framework for DayZ
 
 quick notes:
 
-UnPBO your missions.pbo
-create a folder named ADDONS in there
-copy SHK_POS, SARGE and UPSMON into that directory
+1) UnPBO your missions.pbo
+
+2) create a folder named ADDONS in there
+
+3) copy SHK_POS, SARGE and UPSMON into that directory
 
 A)
 check out the init.sqf file as an example, you will need to add to the end of your init.sqf file the following lines:
@@ -54,3 +56,16 @@ change to
 this might vary with your DayzMap and might get updated by Battleye, i recommend to UNDERSTAND how battleeye filters work,
 so in case you need to adjust them, you are able to.
 
+D) vehicles are being deleted by the Server stating " A hacker was killed" ...
+Check out the server_cleanup.fsm file that is part of this repository. Take it as an EXAMPLE how to adjust yours.
+
+The line you are looking for is:
+
+       "    if  (!(vehicle _x in _safety) && ((typeOf vehicle _x) != ""ParachuteWest"") ) then {" \n
+       
+Change to / add as shown:
+
+       "    if  (!(vehicle _x in _safety) && ((typeOf vehicle _x) != ""ParachuteWest"") && (vehicle _x getVariable [""Sarge"",0] != 1) ) then {" \n
+
+       
+       
