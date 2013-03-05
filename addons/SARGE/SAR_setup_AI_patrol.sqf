@@ -24,11 +24,10 @@
 //   ]
 // ------------------------------------------------------------------------------------------------------------
 
-if(!isServer) exitWith {};
 
-private ["_patrol_area_name","_grouptype", "_snipers", "_riflemen","_action","_side","_leader_group",
-"_riflemenlist","_sniperlist","_leader_weapon_name","_soldier_weapon_name","_sniper_weapon_name","_leader_magazine_name",
-"_soldier_magazine_name","_sniper_magazin_name","_rndpos","_group","_leader"];
+private ["_patrol_area_name","_grouptype","_snipers","_riflemen","_action","_side","_leader_group","_riflemenlist","_sniperlist","_leader_weapon_name","_soldier_weapon_name","_sniper_weapon_name","_leader_magazine_name","_soldier_magazine_name","_sniper_magazin_name","_rndpos","_group","_leader","_i"];
+
+if(!isServer) exitWith {};
 
 _patrol_area_name = _this select 0;
 _grouptype = _this select 1;
@@ -82,7 +81,6 @@ _leader addMagazine _leader_magazine_name;
 _leader addWeapon _leader_weapon_name;
 _leader setVehicleInit "null = [this] execVM 'addons\SARGE\SAR_trace_entities.sqf';";
 _leader addMPEventHandler ["MPkilled", {Null = _this execVM "addons\SARGE\SAR_aikilled.sqf";}]; 
-_leader setVariable ["BIS_noCoreConversations", true,true]; 
 [_leader] joinSilent _group;
 
 // create crew
@@ -95,7 +93,6 @@ for [{_i=0}, {_i < _snipers}, {_i=_i+1}] do
     _this addWeapon _sniper_weapon_name;
     _this setVehicleInit "null = [this] execVM 'addons\SARGE\SAR_trace_entities.sqf';";
     _this addMPEventHandler ["MPkilled", {Null = _this execVM "addons\SARGE\SAR_aikilled.sqf";}]; 
-    _this setVariable ["BIS_noCoreConversations", true,true]; 
     [_this] joinSilent _group;
 };
 
@@ -107,7 +104,6 @@ for [{_i=0}, {_i < _riflemen}, {_i=_i+1}] do
     _this addWeapon _soldier_weapon_name;
     _this setVehicleInit "null = [this] execVM 'addons\SARGE\SAR_trace_entities.sqf';";    
     _this addMPEventHandler ["MPkilled", {Null = _this execVM "addons\SARGE\SAR_aikilled.sqf";}]; 
-    _this setVariable ["BIS_noCoreConversations", true,true]; 
     [_this] joinSilent _group;
 };
 
@@ -120,6 +116,6 @@ null=[_leader,_patrol_area_name,'spawned','nofollow','nowait','aware','delete:',
 
 processInitCommands;
 
-diag_log "SAR_AI: AI infantry patrol spawned";
+diag_log format["SAR_AI: AI infantry patrol spawned in %1",_patrol_area_name];
 
 _group;

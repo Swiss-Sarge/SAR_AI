@@ -15,9 +15,10 @@
 //  SAR_AI_spawn.sqf - handle the logic of spawning and despawning AI groups via the defined trigger array
 // ---------------------------------------------------------------------------------------------------------
 
-if (!isServer) exitWith {}; // only run this on the server
 
-private["_pos","_ai","_aikiller","_player_or_ai","_aikiller_type","_aikiller_name", "_aikiller_side"];
+private ["_i","_snipers","_soldiers","_group","_check","_probability","_chance","_playerlist","_triggername","_tmparr","_markername","_player","_valuearray","_max_grps","_rnd_grps","_max_p_grp","_grps_band","_grps_sold","_grps_surv","_grps_upd"];
+
+if (!isServer) exitWith {}; // only run this on the server
 
 _playerlist = _this select 0;
 _triggername = _this select 1;
@@ -100,5 +101,5 @@ for [{_i = (count _grps_surv)},{_i < (_max_grps select 2)}, {_i=_i+1}]  do
 };
 
 // DEBUG
-//if (SAR_DEBUG) then {call SAR_DEBUG_mon;};
+if (SAR_DEBUG) then {call SAR_DEBUG_mon;};
 

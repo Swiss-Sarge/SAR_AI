@@ -15,13 +15,13 @@
 //  SAR_AI_despawn.sqf - handle the logic of despawning  AI groups via the defined trigger array
 // ---------------------------------------------------------------------------------------------------------
 
-if (!isServer) exitWith {}; // only run this on the server
 
-private["_timeout","_playerlist","_triggername","_tmparr","_markername","_valuearray", "_grps_band","_grps_sold","_grps_surv","_check"];
+private ["_timeout","_triggername","_tmparr","_markername","_valuearray","_grps_band","_grps_sold","_grps_surv","_check","_trigger"];
+
+if (!isServer) exitWith {}; // only run this on the server
 
 _timeout = SAR_DESPAWN_TIMEOUT;
 
-_playerlist = _this select 0;
 _trigger = _this select 1;
 _triggername = _this select 2;
 
@@ -33,8 +33,6 @@ _tmparr set[6,101];
 _tmparr set[7,97];
 
 _markername=toString _tmparr;
-
-_player = _playerlist select 0;
 
 sleep _timeout;
 

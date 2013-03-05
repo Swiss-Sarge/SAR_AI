@@ -16,7 +16,7 @@
 //   last modified: 26.2.2013
 // ---------------------------------------------------------------------------------------------------------
 
-private["_ai","_magazintype","_entity_array","_humanity","_humanitylimit","_sleeptime","_detectrange"];
+private ["_ai","_magazintype","_entity_array","_humanity","_humanitylimit","_sleeptime","_detectrange","_weapons","_weapon"];
 
 _ai = _this select 0;
 

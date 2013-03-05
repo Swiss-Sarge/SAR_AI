@@ -20,7 +20,7 @@
 //
 // Traces only bandits
 
-private["_ai","_magazintype","_entity_array","_humanity","_humanitylimit","_sleeptime","_detectrange"];
+private ["_ai","_magazintype","_entity_array","_humanity","_humanitylimit","_sleeptime","_detectrange","_tagged","_veh_weapons","_vehicle","_weapons","_weapon"];
 
 _ai = _this select 0;
 

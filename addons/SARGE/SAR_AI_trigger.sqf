@@ -15,11 +15,10 @@
 //  SAR_AI_trigger.sqf - handle triggers activated on the clients
 // ---------------------------------------------------------------------------------------------------------
 
-diag_log "Do i ever get here";
+
+private ["_triggerlist","_player"];
 
 if (!isServer) exitWith {}; // only run this on the server
-
-private["_pos","_ai","_aikiller","_player_or_ai","_aikiller_type","_aikiller_name", "_aikiller_side"];
 
 _triggerlist = _this;
 
