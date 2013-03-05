@@ -1,7 +1,15 @@
 SAR_AI
 ======
 
-SAR AI framework for DayZ
+SAR AI framework for DayZ Version 1.0.0
+
+Latest changes:
+
+- moved all the map specific configuration into a seoperate folder and corresponding config files. 
+- The config files for the grids for Chernarus, Taviana and Namalsk are adjusted, if you want to run another map, you will need to adjust these values to suit your map.
+- The config files for the AI spawns (static and automatic) are empty for all maps except Namalsk, Taviana and Chernarus. You will need to configure them yourself.
+
+-----------------
 
 quick notes:
 
@@ -57,7 +65,7 @@ this might vary with your DayzMap and might get updated by Battleye, i recommend
 so in case you need to adjust them, you are able to.
 
 D) vehicles are being deleted by the Server stating " A hacker was killed" ...
-Check out the server_cleanup.fsm file that is part of this repository. Take it as an EXAMPLE how to adjust yours.
+Check out the server_cleanup.fsm file that is part of this repository. Take it as an EXAMPLE (might differ based on server package that you use)how to adjust yours.
 
 The line you are looking for is:
 
