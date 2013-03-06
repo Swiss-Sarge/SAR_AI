@@ -55,6 +55,9 @@ SAR_DELETE_TIMEOUT = 120;
 // Shows extra debug info in .rpt
 SAR_DEBUG = true;
 
+// careful with setting this, this shows a LOT, including the grid properties and definitions for every spawn and despawn event
+SAR_EXTREME_DEBUG = false;
+
 // type of soldier lists, only allowed DayZ classes listed. adjust if you run rmod or another map that allows different classes
 
 // military AI
@@ -172,8 +175,8 @@ for [{_i=0}, {_i < _gridsize_y}, {_i=_i+1}] do
         
         Call Compile Format ["SAR_trig_%1_%2 = _this",_ii,_i]; 
 
-        _trig_act_stmnt = format["if (SAR_DEBUG) then {diag_log 'trigger on';};[thislist,'%1'] execVM'addons\SARGE\SAR_AI_spawn.sqf';",_triggername];
-        _trig_deact_stmnt = format["if (SAR_DEBUG) then {diag_log 'trigger off';};[thislist,thisTrigger,'%1'] execVM'addons\SARGE\SAR_AI_despawn.sqf';",_triggername];
+        _trig_act_stmnt = format["if (SAR_DEBUG) then {diag_log 'SAR DEBUG: trigger on in %1';};[thislist,'%1'] execVM'addons\SARGE\SAR_AI_spawn.sqf';",_triggername];
+        _trig_deact_stmnt = format["if (SAR_DEBUG) then {diag_log 'SAR DEBUG: trigger off in %1';};[thislist,thisTrigger,'%1'] execVM'addons\SARGE\SAR_AI_despawn.sqf';",_triggername];
         
         _trig_cond = "{isPlayer _x} count thisList > 0;";
         

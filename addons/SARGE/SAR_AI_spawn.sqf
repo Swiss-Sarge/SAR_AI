@@ -34,7 +34,12 @@ _markername=toString _tmparr;
 
 _player = _playerlist select 0;
 
-if (SAR_DEBUG) then {diag_log format["Triggered by (might be wrong): %1", _player];};
+if (SAR_DEBUG) then {diag_log format["SAR_DEBUG: Triggered by (might be wrong): %1", _player];};
+
+if (SAR_EXTREME_DEBUG) then {
+    diag_log "SAR EXTREME DEBUG: Content of the Monitor before adding spawned groups.";
+    call SAR_DEBUG_mon;
+};
 
 _valuearray= [["max_grps","rnd_grps","max_p_grp","grps_band","grps_sold","grps_surv"],_markername] call SAR_AI_mon_read; 
 
@@ -101,5 +106,8 @@ for [{_i = (count _grps_surv)},{_i < (_max_grps select 2)}, {_i=_i+1}]  do
 };
 
 // DEBUG
-if (SAR_DEBUG) then {call SAR_DEBUG_mon;};
+if (SAR_EXTREME_DEBUG) then {
+    diag_log "SAR EXTREME DEBUG: Content of the Monitor after adding spawned groups.";
+    call SAR_DEBUG_mon;
+};
 

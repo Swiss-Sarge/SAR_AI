@@ -126,11 +126,11 @@ SAR_AI_mon_read = {
 
 SAR_DEBUG_mon = {
 
-    diag_log "---------------------------------------------";
+    diag_log "--------------------Start of AI monitor values -------------------------";
     {
         diag_log format["DEBUG: %1",_x];
     }foreach SAR_AI_monitor;
     
-    diag_log "---------------------------------------------";
+    diag_log "--------------------End of AI monitor values   -------------------------";
 };
 

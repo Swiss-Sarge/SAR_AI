@@ -43,7 +43,9 @@ while {alive _ai} do {
                     _humanity= _x getVariable ["humanity",0];
 
                     If (_humanity < _humanitylimit && rating _x > -10000) then {
-                        //diag_log format["reducing rating (trace_entities - vehicle) for player: %1",name _x];
+                        if(SAR_EXTREME_DEBUG) then {
+                            diag_log format["SAR EXTREME DEBUG: reducing rating (trace_entities - vehicle) for player: %1", _x];
+                        };
                         _x addrating -10000;
                     };
                 };
@@ -54,7 +56,9 @@ while {alive _ai} do {
                     _humanity= _x getVariable ["humanity",0];
 
                     If (_humanity < _humanitylimit && rating _x > -10000) then {
-                        //diag_log format["reducing rating (trace_entities - foot) for player: %1",name _x];
+                        if(SAR_EXTREME_DEBUG) then {
+                            diag_log format["SAR EXTREME DEBUG: reducing rating (trace_entities - foot) for player: %1", _x];
+                        };
                         _x addrating -10000;
                     };
                 } else {
@@ -63,7 +67,9 @@ while {alive _ai} do {
                 
                         if(rating _x > -10000) then {
                             _x addrating -10000;
-                            //diag_log format["Zombie rated down: %1",(rating _x)];
+                            if(SAR_EXTREME_DEBUG) then {
+                                diag_log format["SAR EXTREME DEBUG: Zombie rated down: %1",(rating _x)];
+                            };
                         };
                     };
                 };
@@ -80,7 +86,7 @@ while {alive _ai} do {
         if ((_ai ammo _weapon == 0) || ((count magazines _ai) < 1))  then {
             {_ai removeMagazine _x} forEach magazines _ai;
             _ai addMagazine _magazintype;
-            if (SAR_DEBUG) then {diag_log "Infantry reloaded";};
+            if (SAR_EXTREME_DEBUG) then {diag_log "SAR_EXTREME_DEBUG: Infantry reloaded";};
         };
     };
     

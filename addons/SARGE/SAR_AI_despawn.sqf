@@ -39,10 +39,14 @@ sleep _timeout;
 if !(triggerActivated _trigger) then {
 
     if (SAR_DEBUG) then {
-        diag_log format["Despawning groups in: %1", _markername];
+        diag_log format["SAR DEBUG: Despawning groups in: %1", _markername];
     };
 
-    //if (SAR_DEBUG) then {call SAR_DEBUG_mon;};
+    if (SAR_EXTREME_DEBUG) then {
+        diag_log "SAR EXTREME DEBUG: Content of the Monitor before despawn deletion";
+        call SAR_DEBUG_mon;
+    };
+        
     
     // get all groups in that area
     _valuearray= [["grps_band","grps_sold","grps_surv"],_markername] call SAR_AI_mon_read; 
@@ -72,6 +76,9 @@ if !(triggerActivated _trigger) then {
     // update SAR_AI_monitor
     _check = [["grps_band","grps_sold","grps_surv"],[[],[],[]],_markername] call SAR_AI_mon_upd;     
 
-    //if (SAR_DEBUG) then {call SAR_DEBUG_mon;};
+    if (SAR_EXTREME_DEBUG) then {
+        diag_log "SAR EXTREME DEBUG: Content of the Monitor after despawn deletion";
+        call SAR_DEBUG_mon;
+    };
     
 };

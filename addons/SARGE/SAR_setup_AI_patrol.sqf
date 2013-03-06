@@ -116,6 +116,7 @@ null=[_leader,_patrol_area_name,'spawned','nofollow','nowait','aware','delete:',
 
 processInitCommands;
 
-diag_log format["SAR_AI: AI infantry patrol spawned in %1",_patrol_area_name];
-
+if(SAR_DEBUG) then {
+    diag_log format["SAR_DEBUG: static Infantry patrol spawned in: %1",_patrol_area_name];
+};
 _group;
