@@ -5,7 +5,7 @@ SAR AI framework for DayZ Version 1.0.0
 
 Latest changes:
 
-- moved all the map specific configuration into a seoperate folder and corresponding config files. 
+- moved all the map specific configuration into a seperate folder and corresponding config files. 
 - The config files for the grids for Chernarus, Taviana and Namalsk are adjusted, if you want to run another map, you will need to adjust these values to suit your map.
 - The config files for the AI spawns (static and automatic) are empty for all maps except Namalsk, Taviana and Chernarus. You will need to configure them yourself.
 
@@ -35,6 +35,8 @@ While debugging and testing, set
 
 // Shows extra debug info in .rpt
 SAR_DEBUG = true;
+
+SAR_EXTREME_DEBUG = true;
 
 in SAR_AI_init.sqf, and
 
