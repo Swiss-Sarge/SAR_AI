@@ -1,7 +1,7 @@
 SAR_AI
 ======
 
-SAR AI framework for DayZ Version 1.0.0
+SAR AI framework for 404 Wasteland
 
 Latest changes:
 
