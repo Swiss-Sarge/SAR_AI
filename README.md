@@ -24,8 +24,10 @@ check out the init.sqf file as an example, you will need to add to the end of yo
 
 // UPSMON
 call compile preprocessFileLineNumbers "addons\UPSMON\scripts\Init_UPSMON.sqf";
+
 // SHK 
 call compile preprocessfile "addons\SHK_pos\shk_pos_init.sqf";
+
 // run SAR_AI
 [] execVM "addons\SARGE\SAR_AI_init.sqf";
 
