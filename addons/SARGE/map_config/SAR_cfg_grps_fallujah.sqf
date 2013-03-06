@@ -85,7 +85,11 @@ diag_log format["SAR_AI: Area & Trigger definition finalized"];
 diag_log format["SAR_AI: Static Spawning for Helicopter patrols started"];
 
 //
-// Static, predefined heli patrol areas with friendly military units
+// Static, predefined heli patrol areas with configurable units
+//
+// Parameters used: 
+//                  Areaname
+//                  1,2,3 = soldier, survivors, bandits
 //
 
 // add if needed, see examples in the chernarus file

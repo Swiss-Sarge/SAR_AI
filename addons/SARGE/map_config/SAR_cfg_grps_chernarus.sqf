@@ -180,22 +180,26 @@ diag_log format["SAR_AI: Area & Trigger definition finalized"];
 diag_log format["SAR_AI: Static Spawning for Helicopter patrols started"];
 
 //
-// Static, predefined heli patrol areas with friendly military units
+// Static, predefined heli patrol areas with configurable units
+//
+// Parameters used: 
+//                  Areaname
+//                  1,2,3 = soldier, survivors, bandits
 //
 
  //Heli Patrol NWAF
-[SAR_marker_helipatrol_nwaf] call SAR_AI_heli;
+[SAR_marker_helipatrol_nwaf,1] call SAR_AI_heli;
 
 //Heli Patrol NEAF
-[SAR_marker_helipatrol_neaf] call SAR_AI_heli;
+[SAR_marker_helipatrol_neaf,1] call SAR_AI_heli;
 
 // Heli patrol south coast
-[SAR_marker_helipatrol_southcoast] call SAR_AI_heli;
-[SAR_marker_helipatrol_southcoast] call SAR_AI_heli;
+[SAR_marker_helipatrol_southcoast,1] call SAR_AI_heli;
+[SAR_marker_helipatrol_southcoast,1] call SAR_AI_heli;
 
 // heli patrol east coast
-[SAR_marker_helipatrol_eastcoast] call SAR_AI_heli;
-[SAR_marker_helipatrol_eastcoast] call SAR_AI_heli;
+[SAR_marker_helipatrol_eastcoast,1] call SAR_AI_heli;
+[SAR_marker_helipatrol_eastcoast,1] call SAR_AI_heli;
 
 diag_log format["SAR_AI: Static Spawning for Helicopter patrols finished"];
 

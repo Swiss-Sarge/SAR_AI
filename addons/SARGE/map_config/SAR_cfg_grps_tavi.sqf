@@ -268,30 +268,36 @@ diag_log format["SAR_AI: Area & Trigger definition finalized"];
 diag_log format["SAR_AI: Static Spawning for Helicopter patrols started"];
 
 //
-// Static, predefined heli patrol areas with friendly military units
+// Static, predefined heli patrol areas with configurable units
+//
+// Parameters used: 
+//                  Areaname
+//                  1,2,3 = soldier, survivors, bandits
 //
 
     //Heli Patrol Sabina
-    [SAR_marker_helipatrol_sabina] call SAR_AI_heli;
+    [SAR_marker_helipatrol_sabina,1] call SAR_AI_heli;
 
     //Heli Patrol Lyepestok
-    [SAR_marker_helipatrol_lyepestok] call SAR_AI_heli;
+    [SAR_marker_helipatrol_lyepestok,1] call SAR_AI_heli;
 
     //Heli patrol NWAF
-    [SAR_marker_helipatrol_nwaf] call SAR_AI_heli;
+    [SAR_marker_helipatrol_nwaf,1] call SAR_AI_heli;
     
     //Heli patrol Dubovo
-    [SAR_marker_helipatrol_dubovo] call SAR_AI_heli;
+    [SAR_marker_helipatrol_dubovo,1] call SAR_AI_heli;
 
     //Heli patrol Krasnoznamensk
-    [SAR_marker_helipatrol_kraz] call SAR_AI_heli;
+    [SAR_marker_helipatrol_kraz,1] call SAR_AI_heli;
     
     //Heli patrol Branibor
-    [SAR_marker_helipatrol_branibor] call SAR_AI_heli;
+    [SAR_marker_helipatrol_branibor,1] call SAR_AI_heli;
+    
 
+    // add if needed, see examples in the chernarus file
 
-// add if needed, see examples in the chernarus file
-
+    
+    
 diag_log format["SAR_AI: Static Spawning for Helicopter patrols finished"];
 
 //---------------------------------------------------------------------------------
@@ -321,7 +327,8 @@ diag_log format["SAR_AI: Static Spawning for Helicopter patrols finished"];
 //[SAR_marker_helipatrol_nwaf,3,5,2,""] call SAR_AI;
 //---------------------------------------------------------------------------------
 
-// add here if needed
+
+    // add here if needed
 
 
 
