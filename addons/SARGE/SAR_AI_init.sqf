@@ -144,6 +144,11 @@ switch (_worldname) do {
     {
         #include "map_config\SAR_cfg_grid_fallujah.sqf"
     };
+    case "panthera":
+    {
+        #include "map_config\SAR_cfg_grid_panthera.sqf"
+    };
+
 };
 
 SAR_area_ = text format ["SAR_area_%1","x"];
@@ -225,5 +230,10 @@ switch (_worldname) do {
     {
         #include "map_config\SAR_cfg_grps_fallujah.sqf"
     };
+    case "panthera":
+    {
+        #include "map_config\SAR_cfg_grps_panthera.sqf"
+    };
+    
 };
 
