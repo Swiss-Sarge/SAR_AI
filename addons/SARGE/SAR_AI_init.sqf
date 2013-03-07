@@ -53,7 +53,7 @@ SAR_DESPAWN_TIMEOUT = 120; // 2 minutes
 SAR_DELETE_TIMEOUT = 120; 
 
 // Shows extra debug info in .rpt
-SAR_DEBUG = true;
+SAR_DEBUG = false;
 
 // careful with setting this, this shows a LOT, including the grid properties and definitions for every spawn and despawn event
 SAR_EXTREME_DEBUG = false;
@@ -161,15 +161,16 @@ for [{_i=0}, {_i < _gridsize_y}, {_i=_i+1}] do
         _markername = format["SAR_area_%1_%2",_ii,_i];
         
         _this = createMarker[_markername,[_startx + (_ii * _gridwidth * 2),_starty + (_i * _gridwidth * 2)]];
-        if(SAR_DEBUG) then {
+        if(SAR_DEBUG || SAR_EXTREME_DEBUG) then {
             _this setMarkerAlpha 1;
+        } else {
+            _this setMarkerAlpha 0;
         };
         _this setMarkerShape "RECTANGLE";
         _this setMarkerType "Flag";
         _this setMarkerBrush "BORDER";
         _this setMarkerSize [_gridwidth, _gridwidth];
-        _this setMarkerText format["%1 - %2",_ii,_i];
-        
+                
         Call Compile Format ["SAR_area_%1_%2 = _this",_ii,_i]; 
         
         _triggername = format["SAR_trig_%1_%2",_ii,_i];
