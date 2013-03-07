@@ -56,7 +56,7 @@ If you are confident that your tests were ok, locate the following lines in your
 
 change this to
 
-       1 setFuel !"\"setFuel\"," !"z\addons\dayz_code\compile\local_setFuel.sqf" !"\"dayzSetFuel\"" !"if (_fuel >= 1.0) then { _fuel = 1.0; };\n\n_target setFuel _fuel;" !"_vehicle setFuel 1;\nif (SAR_DEBUG) then {diag_log \"Vehicle refueled\";};"
+       1 setFuel !"\"setFuel\"," !"z\addons\dayz_code\compile\local_setFuel.sqf" !"\"dayzSetFuel\"" !"if (_fuel >= 1.0) then { _fuel = 1.0; };\n\n_target setFuel _fuel;" !"_vehicle setFuel 1;\nif (SAR_EXTREME_DEBUG) then {diag_log "SAR_EXTREME_DEBUG: Vehicle refueled";};"
 
 locate this line:
 
@@ -64,7 +64,7 @@ locate this line:
 
 change to
 
-       5 setVehicleAmmo !"\"setVehicleAmmo\"," !"_vehicle setVehicleAmmo 1;\nif (SAR_DEBUG) then {diag_log \"Vehicle new ammo\";};"
+       5 setVehicleAmmo !"\"setVehicleAmmo\"," !"_vehicle setVehicleAmmo 1;\nif (SAR_EXTREME_DEBUG) then {diag_log "SAR EXTREME DEBUG: Vehicle new ammo";};"
 
 this might vary with your DayzMap and might get updated by Battleye, i recommend to UNDERSTAND how battleeye filters work,
 so in case you need to adjust them, you are able to.
