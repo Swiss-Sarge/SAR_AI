@@ -53,10 +53,10 @@ SAR_DESPAWN_TIMEOUT = 120; // 2 minutes
 SAR_DELETE_TIMEOUT = 120; 
 
 // Shows extra debug info in .rpt
-SAR_DEBUG = false;
+SAR_DEBUG = true;
 
 // careful with setting this, this shows a LOT, including the grid properties and definitions for every spawn and despawn event
-SAR_EXTREME_DEBUG = false;
+SAR_EXTREME_DEBUG = true;
 
 // type of soldier lists, only allowed DayZ classes listed. adjust if you run rmod or another map that allows different classes
 
