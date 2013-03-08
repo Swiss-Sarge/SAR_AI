@@ -68,7 +68,7 @@ while {alive _ai} do {
                         if(rating _x > -10000) then {
                             _x addrating -10000;
                             if(SAR_EXTREME_DEBUG) then {
-                                diag_log format["SAR EXTREME DEBUG: Zombie rated down: %1",(rating _x)];
+                                diag_log "SAR EXTREME DEBUG: Zombie rated down";
                             };
                         };
                     };
