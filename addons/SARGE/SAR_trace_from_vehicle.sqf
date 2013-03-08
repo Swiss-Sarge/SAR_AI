@@ -32,7 +32,7 @@ _magazintype= getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines") se
 _detectrange=300;
 _humanitylimit=-2000;
 _humanity=0;
-_sleeptime=5;
+_sleeptime=20;
     
 while {alive _ai} do {
 
