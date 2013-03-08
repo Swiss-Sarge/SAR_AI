@@ -38,8 +38,8 @@ call compile preprocessFileLineNumbers "addons\SARGE\SAR_functions.sqf";
 
 // side definitions, better NOT change em
 
-createCenter civilian;
-createCenter west;
+//createCenter civilian;
+//createCenter west;
 createCenter east;
 
 EAST setFriend [WEST, 0]; 
@@ -54,9 +54,11 @@ SAR_DELETE_TIMEOUT = 120;
 
 // Shows extra debug info in .rpt
 SAR_DEBUG = true;
+publicvariable "SAR_DEBUG";
 
 // careful with setting this, this shows a LOT, including the grid properties and definitions for every spawn and despawn event
 SAR_EXTREME_DEBUG = true;
+publicvariable "SAR_EXTREME_DEBUG";
 
 // type of soldier lists, only allowed DayZ classes listed. adjust if you run rmod or another map that allows different classes
 
@@ -96,7 +98,7 @@ diag_log format["SAR_AI: Area & Trigger definition Started"];
 
 SAR_AI_monitor = [];
 
-_worldname=format["%1",worldName];
+_worldname= toLower format["%1",worldName];
 
 diag_log format["Setting up SAR_AI for : %1",_worldname];
 
