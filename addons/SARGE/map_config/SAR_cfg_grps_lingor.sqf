@@ -65,10 +65,104 @@ this number is randomized
 // examples see the chernarus file
 // --------------------------------------------------
  
+ // group number - bandits,soldiers,survivors
+ //probability - bandits,soldiers,survivors
+ //person number - bandits,soldiers,survivors
  
- // add entries here ...
+_check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,2],[30,0,45],[0,0,0]],"SAR_area_0_0"] call SAR_AI_mon_upd; 	//Pintosa, Alma, Corda, Mercadio
+_check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,2],[35,0,45],[0,0,0]],"SAR_area_1_0"] call SAR_AI_mon_upd; 	//Verto, Medlina
+_check = [["max_grps","rnd_grps","max_p_grp"],[[4,0,4],[75,0,85],[2,0,1]],"SAR_area_2_0"] call SAR_AI_mon_upd; 	//Calamar (main+south)
+_check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,1],[20,0,20],[0,0,1]],"SAR_area_3_0"] call SAR_AI_mon_upd; 	//Wilderness
+_check = [["max_grps","rnd_grps","max_p_grp"],[[0,0,1],[0,0,25],[0,0,1]],"SAR_area_4_0"] call SAR_AI_mon_upd; 	//Depot (Old Mines)
+_check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,2],[25,0,45],[0,0,0]],"SAR_area_5_0"] call SAR_AI_mon_upd;  //Chupinka
+
+_check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,1],[25,0,35],[1,0,1]],"SAR_area_0_1"] call SAR_AI_mon_upd; 	//Drassen, Rago
+_check = [["max_grps","rnd_grps","max_p_grp"],[[0,0,0],[0,0,0],[0,0,0]],"SAR_area_1_1"] call SAR_AI_mon_upd; 	//Barro, Aguado - NO SPAWNS 
+_check = [["max_grps","rnd_grps","max_p_grp"],[[2,0,2],[35,0,45],[2,0,2]],"SAR_area_2_1"] call SAR_AI_mon_upd; 	//Bilbado, Montehofo, Calamar (north)
+_check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,2],[15,0,35],[1,0,1]],"SAR_area_3_1"] call SAR_AI_mon_upd; 	//Negroso, Lagosa, Prospero
+_check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,1],[35,0,35],[0,0,1]],"SAR_area_4_1"] call SAR_AI_mon_upd; 	//El Villon, Marcella, Monga
+_check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,1],[35,0,35],[1,0,1]],"SAR_area_5_1"] call SAR_AI_mon_upd;  //Pikawas, Palida
+
+_check = [["max_grps","rnd_grps","max_p_grp"],[[0,0,0],[0,0,0],[0,0,0]],"SAR_area_0_2"] call SAR_AI_mon_upd; 	//Villa Oscura, Motodrom Rapido - NO SPAWNS
+_check = [["max_grps","rnd_grps","max_p_grp"],[[2,0,1],[45,0,35],[1,0,1]],"SAR_area_1_2"] call SAR_AI_mon_upd; 	//Los Peligron, Morada, OPEN WASTELAND
+_check = [["max_grps","rnd_grps","max_p_grp"],[[2,0,1],[35,0,35],[1,0,1]],"SAR_area_2_2"] call SAR_AI_mon_upd; 	//San Arluco (south), Aeropuerto Peligron, Pancho
+_check = [["max_grps","rnd_grps","max_p_grp"],[[3,0,2],[75,0,65],[2,0,2]],"SAR_area_3_2"] call SAR_AI_mon_upd; 	//Corazon, Checkpoint Sur
+_check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,2],[45,0,55],[0,0,1]],"SAR_area_4_2"] call SAR_AI_mon_upd; 	//Victorin, SanVigado
+_check = [["max_grps","rnd_grps","max_p_grp"],[[0,0,0],[0,0,0],[0,0,0]],"SAR_area_5_2"] call SAR_AI_mon_upd; 	//WATER ONLY - NO SPAWNS
+
+_check = [["max_grps","rnd_grps","max_p_grp"],[[2,0,2],[45,0,45],[0,0,1]],"SAR_area_0_3"] call SAR_AI_mon_upd; 	//Pocobay, Benio, Pista
+_check = [["max_grps","rnd_grps","max_p_grp"],[[2,0,2],[55,0,55],[2,0,1]],"SAR_area_1_3"] call SAR_AI_mon_upd; 	//Vidora, Mairango, Fernando, Elcanto
+_check = [["max_grps","rnd_grps","max_p_grp"],[[2,0,2],[50,0,50],[2,0,1]],"SAR_area_2_3"] call SAR_AI_mon_upd; 	//Mercielo, Guayucca, Tucos, San Arluco (north)
+_check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,1],[65,0,75],[0,0,1]],"SAR_area_3_3"] call SAR_AI_mon_upd; 	//Calapedro, OPEN WASTELAND
+_check = [["max_grps","rnd_grps","max_p_grp"],[[4,0,2],[75,0,55],[2,0,2]],"SAR_area_4_3"] call SAR_AI_mon_upd; 	//Maruko (south), Dump Yard
+_check = [["max_grps","rnd_grps","max_p_grp"],[[0,0,0],[0,0,0],[0,0,0]],"SAR_area_5_3"] call SAR_AI_mon_upd; 	//WATER ONLY - NO SPAWNS
+
+_check = [["max_grps","rnd_grps","max_p_grp"],[[0,0,0],[0,0,0],[0,0,0]],"SAR_area_0_4"] call SAR_AI_mon_upd; 	//East Island tip - NO SPAWNS
+_check = [["max_grps","rnd_grps","max_p_grp"],[[2,0,1],[75,0,75],[1,0,1]],"SAR_area_1_4"] call SAR_AI_mon_upd; 	//FOB Eddie, OPEN WASTELAND
+_check = [["max_grps","rnd_grps","max_p_grp"],[[2,0,2],[65,0,55],[1,0,2]],"SAR_area_2_4"] call SAR_AI_mon_upd; 	//Aculto, Garibosa, Research Lab 101
+_check = [["max_grps","rnd_grps","max_p_grp"],[[2,0,2],[75,0,55],[1,0,1]],"SAR_area_3_4"] call SAR_AI_mon_upd; 	//San Isobel, Rommelo Raceway, Maruko airport (west)
+_check = [["max_grps","rnd_grps","max_p_grp"],[[5,0,2],[75,0,65],[1,0,1]],"SAR_area_4_4"] call SAR_AI_mon_upd; 	//Maruko (north), Maruko airport (east)
+_check = [["max_grps","rnd_grps","max_p_grp"],[[3,0,0],[55,0,0],[2,0,0]],"SAR_area_5_4"] call SAR_AI_mon_upd; 	//NE Island (south)
+
+_check = [["max_grps","rnd_grps","max_p_grp"],[[0,0,0],[0,0,0],[0,0,0]],"SAR_area_0_5"] call SAR_AI_mon_upd; 	//DEBUG ISLAND - NO SPAWNS
+_check = [["max_grps","rnd_grps","max_p_grp"],[[3,0,1],[75,0,45],[2,0,1]],"SAR_area_1_5"] call SAR_AI_mon_upd; 	//Prison, OPEN WASTELAND
+_check = [["max_grps","rnd_grps","max_p_grp"],[[2,0,0],[75,0,0],[0,0,0]],"SAR_area_2_5"] call SAR_AI_mon_upd; 	//OPEN WASTELAND
+_check = [["max_grps","rnd_grps","max_p_grp"],[[0,0,0],[0,0,0],[0,0,0]],"SAR_area_3_5"] call SAR_AI_mon_upd; 	//MAINLY WATER - NO SPAWNS
+_check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,0],[50,0,0],[0,0,0]],"SAR_area_4_5"] call SAR_AI_mon_upd; 	//SMALL NE ISLAND
+_check = [["max_grps","rnd_grps","max_p_grp"],[[2,0,1],[45,0,35],[2,0,0]],"SAR_area_5_5"] call SAR_AI_mon_upd; 	//NE Island (north)
+
+diag_log format["SAR_AI: Area & Trigger definition finalized"];
+diag_log format["SAR_AI: Static Spawning for Helicopter patrols started"];
  
+ //PRISON TESTING CHOPPER SPAWNS
  
+ _this = createMarker ["SAR_patrol_prison", [3024.6147, 7969.0239]];
+_this setMarkerShape "RECTANGLE";
+_this setMarkeralpha 0;
+_this setMarkerType "Flag";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [1500, 1500];
+SAR_marker_helipatrol_prison = _this;
+
+ _this = createMarker ["SAR_patrol_maruko_airport", [6451.5801, 6991.4985]];
+_this setMarkerShape "RECTANGLE";
+_this setMarkeralpha 0;
+_this setMarkerType "Flag";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [1000, 1000];
+SAR_marker_helipatrol_maruko_airport = _this;
+
+ _this = createMarker ["SAR_patrol_fob_eddie", [3058.3813, 6605.2446]];
+_this setMarkerShape "RECTANGLE";
+_this setMarkeralpha 0;
+_this setMarkerType "Flag";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [1000, 1000];
+SAR_marker_helipatrol_fob_eddie = _this;
+
+ _this = createMarker ["SAR_patrol_calamar", [4261.3984, 1487.6489]];
+_this setMarkerShape "RECTANGLE";
+_this setMarkeralpha 0;
+_this setMarkerType "Flag";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [1500, 1500];
+SAR_marker_helipatrol_calamar = _this;
+
+ _this = createMarker ["SAR_patrol_mainland", [3280.0093, 3431.8176]];
+_this setMarkerShape "RECTANGLE";
+_this setMarkeralpha 0;
+_this setMarkerType "Flag";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [4500, 4500];
+SAR_marker_helipatrol_mainland = _this;
+
+[SAR_marker_helipatrol_prison,3] call SAR_AI_heli;
+[SAR_marker_helipatrol_maruko_airport,3] call SAR_AI_heli;
+[SAR_marker_helipatrol_fob_eddie,3] call SAR_AI_heli;
+[SAR_marker_helipatrol_calamar,3] call SAR_AI_heli;
+[SAR_marker_helipatrol_mainland,1] call SAR_AI_heli;
+
+diag_log format["SAR_AI: Static Spawning for Helicopter patrols finished"];
 
 // ---------------------------------------------------------------
 // Definition of area markers for static spawns
