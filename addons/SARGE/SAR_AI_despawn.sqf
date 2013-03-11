@@ -57,19 +57,19 @@ if !(triggerActivated _trigger) then {
     
     {
         {deleteVehicle _x} forEach (units _x);
-        sleep 1;
+        sleep 0.5;
         deleteGroup _x;
     } forEach (_grps_band);
     
     {
         {deleteVehicle _x} forEach (units _x);
-        sleep 1;
+        sleep 0.5;
         deleteGroup _x;
     } forEach (_grps_sold);
 
     {
         {deleteVehicle _x} forEach (units _x);
-        sleep 1;
+        sleep 0.5;
         deleteGroup _x;
     } forEach (_grps_surv);
     
