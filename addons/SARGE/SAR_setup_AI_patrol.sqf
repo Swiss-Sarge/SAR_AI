@@ -112,7 +112,7 @@ for [{_i=0}, {_i < _riflemen}, {_i=_i+1}] do
 
 _leader = leader _group;
 
-null=[_leader,_patrol_area_name,'spawned','nofollow','nowait','aware','delete:',SAR_DELETE_TIMEOUT] execVM 'addons\UPSMON\scripts\upsmon.sqf';
+null=[_leader,_patrol_area_name,'spawned','nofollow','nowait','aware','showmarker','delete:',SAR_DELETE_TIMEOUT] execVM 'addons\UPSMON\scripts\upsmon.sqf';
 
 processInitCommands;
 
