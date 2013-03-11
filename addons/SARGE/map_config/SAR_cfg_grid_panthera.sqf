@@ -12,21 +12,21 @@
 //  SHK_pos 
 //  
 // ---------------------------------------------------------------------------------------------------------
-//   grid cfg file for Panthera
-//   last modified: 5.3.2013
+//   grid cfg file for Panthera, thx to Sabbath
+//   last modified: 11.3.2013
 // ---------------------------------------------------------------------------------------------------------
 
 // x coordinate of the first, bottom left grid center point
-_startx=2500;
+_startx=1100;
 
 // y coordinate of the first, bottom left grid center point
-_starty=2800;
+_starty=1100;
 
 // gridsize x (how many single squares in the grid) for the x-axis
-_gridsize_x=6;
+_gridsize_x=5;
 
 // gridsize y (how many single squares in the grid) for the y-axis
-_gridsize_y=6;
+_gridsize_y=5;
 
 // distance from the center of one square of the grid to the border of that square. so overall size of a square in the grid is 2x gridwidth / 2x gridwidth
 _gridwidth = 1000;
