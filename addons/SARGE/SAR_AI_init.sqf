@@ -57,7 +57,7 @@ SAR_DEBUG = true;
 publicvariable "SAR_DEBUG";
 
 // careful with setting this, this shows a LOT, including the grid properties and definitions for every spawn and despawn event
-SAR_EXTREME_DEBUG = true;
+SAR_EXTREME_DEBUG = false;
 publicvariable "SAR_EXTREME_DEBUG";
 
 // type of soldier lists, only allowed DayZ classes listed. adjust if you run rmod or another map that allows different classes
