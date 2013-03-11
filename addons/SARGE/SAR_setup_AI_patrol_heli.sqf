@@ -91,7 +91,13 @@ _groupheli = createGroup _side;
 
 // create the heli
 
-_heli = createVehicle [SAR_heli_type, [(_rndpos select 0) + 10, _rndpos select 1, 80], [], 0, "FLY"];
+if((_argc > 2) && (_this select 2 == "SAR_DEBUG")) then {
+    _heli = createVehicle [SAR_heli_type, [(_rndpos select 0) + 10, _rndpos select 1, 1], [], 0, "NONE"];
+    _heli setFuel 1;
+} else {
+    _heli = createVehicle [SAR_heli_type, [(_rndpos select 0) + 10, _rndpos select 1, 80], [], 0, "FLY"];
+};
+
 _heli setVariable ["Sarge",1,true];
 _heli engineon true; 
 _heli allowDamage false;
@@ -126,7 +132,9 @@ _man3heli action ["getInTurret", _heli,[1]];
 
 _leaderheli = leader _groupheli;
 
-null=[_leaderheli,_patrol_area_name,'spawned','nofollow','nowait','aware',"delete:",SAR_DELETE_TIMEOUT] execVM 'addons\UPSMON\scripts\upsmon.sqf';
+if(_argc < 3) then {
+    null=[_leaderheli,_patrol_area_name,'spawned','nofollow','nowait','aware',"delete:",SAR_DELETE_TIMEOUT] execVM 'addons\UPSMON\scripts\upsmon.sqf';
+};
 
 processInitCommands;
 
