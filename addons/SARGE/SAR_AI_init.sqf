@@ -1,6 +1,6 @@
 // =========================================================================================================
 //  SAR_AI - DayZ AI library
-//  Version: 1.0.2 
+//  Version: 1.0.3 
 //  Author: Sarge (sarge@krumeich.ch) 
 //
 //		Wiki: to come
@@ -17,7 +17,7 @@
 
 private ["_worldname","_startx","_starty","_gridsize_x","_gridsize_y","_gridwidth","_i","_ii","_markername","_triggername","_trig_act_stmnt","_trig_deact_stmnt","_trig_cond","_check"];
 
-SAR_version = "1.0.2";
+SAR_version = "1.0.3";
 
 if (!isServer) exitWith {}; // only run this on the server
 
@@ -46,13 +46,16 @@ WEST setFriend [EAST, 0];
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-// Value that gets substracted for a survivor or soldier AI kill
+// Humanity Value that gets substracted for a survivor or soldier AI kill
 SAR_surv_kill_value = 250;
 publicvariable "SAR_surv_kill_value";
 
-// Value that gets ADDED for a bandit AI kill
+// Humanity Value that gets ADDED for a bandit AI kill
 SAR_band_kill_value = 50;
 publicvariable "SAR_band_kill_value";
+
+// Log AI kills
+SAR_log_AI_kills = true;
 
 // time after which units and groups despawn after players have left the area
 SAR_DESPAWN_TIMEOUT = 120; // 2 minutes

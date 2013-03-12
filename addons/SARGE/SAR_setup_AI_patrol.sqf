@@ -1,6 +1,6 @@
 // =========================================================================================================
 //  SAR_AI - DayZ AI library
-//  Version: 1.0.2 
+//  Version: 1.0.3 
 //  Author: Sarge (sarge@krumeich.ch) 
 //
 //		Wiki: to come
@@ -81,6 +81,7 @@ _leader addMagazine _leader_magazine_name;
 _leader addWeapon _leader_weapon_name;
 _leader setVehicleInit "null = [this] execVM 'addons\SARGE\SAR_trace_entities.sqf';this setIdentity 'id_SAR_sold_lead';";
 _leader addMPEventHandler ["MPkilled", {Null = _this execVM "addons\SARGE\SAR_aikilled.sqf";}]; 
+_leader addMPEventHandler ["MPHit", {Null = _this execVM "addons\SARGE\SAR_aihit.sqf";}]; 
 [_leader] joinSilent _group;
 
 // create crew
@@ -93,6 +94,7 @@ for [{_i=0}, {_i < _snipers}, {_i=_i+1}] do
     _this addWeapon _sniper_weapon_name;
     _this setVehicleInit "null = [this] execVM 'addons\SARGE\SAR_trace_entities.sqf';this setIdentity 'id_SAR';";
     _this addMPEventHandler ["MPkilled", {Null = _this execVM "addons\SARGE\SAR_aikilled.sqf";}]; 
+    _this addMPEventHandler ["MPHit", {Null = _this execVM "addons\SARGE\SAR_aihit.sqf";}]; 
     [_this] joinSilent _group;
 };
 
@@ -104,6 +106,7 @@ for [{_i=0}, {_i < _riflemen}, {_i=_i+1}] do
     _this addWeapon _soldier_weapon_name;
     _this setVehicleInit "null = [this] execVM 'addons\SARGE\SAR_trace_entities.sqf';this setIdentity 'id_SAR_sold_man';";    
     _this addMPEventHandler ["MPkilled", {Null = _this execVM "addons\SARGE\SAR_aikilled.sqf";}]; 
+    _this addMPEventHandler ["MPHit", {Null = _this execVM "addons\SARGE\SAR_aihit.sqf";}];     
     [_this] joinSilent _group;
 };
 

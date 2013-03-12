@@ -1,6 +1,6 @@
 // =========================================================================================================
 //  SAR_AI - DayZ AI library
-//  Version: 1.0.2 
+//  Version: 1.0.3 
 //  Author: Sarge (sarge@krumeich.ch) 
 //
 //		Wiki: to come
@@ -134,3 +134,54 @@ SAR_DEBUG_mon = {
     diag_log "--------------------End of AI monitor values   -------------------------";
 };
 
+
+SAR_fnc_returnConfigEntry = {
+
+	private ["_config", "_entryName","_entry", "_value"];
+
+	_config = _this select 0;
+	_entryName = _this select 1;
+	_entry = _config >> _entryName;
+
+	//If the entry is not found and we are not yet at the config root, explore the class' parent.
+	if (((configName (_config >> _entryName)) == "") && (!((configName _config) in ["CfgVehicles", "CfgWeapons", ""]))) then {
+		[inheritsFrom _config, _entryName] call SAR_fnc_returnConfigEntry;
+	}
+	else { if (isNumber _entry) then { _value = getNumber _entry; } else { if (isText _entry) then { _value = getText _entry; }; }; };
+	//Make sure returning 'nil' works.
+	if (isNil "_value") exitWith {nil};
+
+	_value;
+};
+
+// *WARNING* BIS FUNCTION RIPOFF - Taken from fn_fnc_returnVehicleTurrets and shortened a bit
+SAR_fnc_returnVehicleTurrets = {
+
+	private ["_entry","_turrets","_turretIndex","_i"];
+
+	_entry = _this select 0;
+	_turrets = [];
+	_turretIndex = 0;
+
+	//Explore all turrets and sub-turrets recursively.
+	for "_i" from 0 to ((count _entry) - 1) do {
+		private ["_subEntry"];
+		_subEntry = _entry select _i;
+		if (isClass _subEntry) then {
+			private ["_hasGunner"];
+			_hasGunner = [_subEntry, "hasGunner"] call SAR_fnc_returnConfigEntry;
+			//Make sure the entry was found.
+			if (!(isNil "_hasGunner")) then {
+				if (_hasGunner == 1) then {
+					_turrets = _turrets + [_turretIndex];
+					//Include sub-turrets, if present.
+					if (isClass (_subEntry >> "Turrets")) then { _turrets = _turrets + [[_subEntry >> "Turrets"] call SAR_fnc_returnVehicleTurrets]; }
+					else { _turrets = _turrets + [[]]; };
+				};
+			};
+			_turretIndex = _turretIndex + 1;
+		};
+		sleep 0.01;
+	};
+	_turrets;
+};
