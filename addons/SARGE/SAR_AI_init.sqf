@@ -1,10 +1,10 @@
 // =========================================================================================================
 //  SAR_AI - DayZ AI library
-//  Version: 1.0.0 
+//  Version: 1.0.2 
 //  Author: Sarge (sarge@krumeich.ch) 
 //
 //		Wiki: to come
-//		Forum: to come
+//		Forum: http://opendayz.net/index.php?threads/sarge-ai-framework-public-release.8391/
 //		
 // ---------------------------------------------------------------------------------------------------------
 //  Required:
@@ -17,10 +17,12 @@
 
 private ["_worldname","_startx","_starty","_gridsize_x","_gridsize_y","_gridwidth","_i","_ii","_markername","_triggername","_trig_act_stmnt","_trig_deact_stmnt","_trig_cond","_check"];
 
+SAR_version = "1.0.2";
+
 if (!isServer) exitWith {}; // only run this on the server
 
 diag_log "----------------------------------------";
-diag_log "Starting SAR_AI server init";
+diag_log format["Starting SAR_AI version %1",SAR_version];
 diag_log "----------------------------------------";
 
 // preprocessing relevant scripts
@@ -36,21 +38,27 @@ call compile preprocessFileLineNumbers "addons\SARGE\SAR_functions.sqf";
 //        These Variables should be checked and set as required
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-// side definitions, better NOT change em
-
-//createCenter civilian;
-//createCenter west;
+// side definitions, better NOT change
 createCenter east;
 
 EAST setFriend [WEST, 0]; 
 WEST setFriend [EAST, 0];
 
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Value that gets substracted for a survivor or soldier AI kill
+SAR_surv_kill_value = 250;
+publicvariable "SAR_surv_kill_value";
+
+// Value that gets ADDED for a bandit AI kill
+SAR_band_kill_value = 50;
+publicvariable "SAR_band_kill_value";
 
 // time after which units and groups despawn after players have left the area
 SAR_DESPAWN_TIMEOUT = 120; // 2 minutes
 
 // time after which dead AI bodies are deleted
-SAR_DELETE_TIMEOUT = 120; 
+SAR_DELETE_TIMEOUT = 120; // 2 minutes
 
 // Shows extra debug info in .rpt
 SAR_DEBUG = true;
@@ -59,6 +67,8 @@ publicvariable "SAR_DEBUG";
 // careful with setting this, this shows a LOT, including the grid properties and definitions for every spawn and despawn event
 SAR_EXTREME_DEBUG = false;
 publicvariable "SAR_EXTREME_DEBUG";
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // type of soldier lists, only allowed DayZ classes listed. adjust if you run rmod or another map that allows different classes
 
