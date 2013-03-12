@@ -159,7 +159,7 @@ switch (_worldname) do {
     {
         #include "map_config\SAR_cfg_grid_fallujah.sqf"
     };
-    case "panthera":
+    case "panthera2":
     {
         #include "map_config\SAR_cfg_grid_panthera.sqf"
     };
@@ -246,7 +246,7 @@ switch (_worldname) do {
     {
         #include "map_config\SAR_cfg_grps_fallujah.sqf"
     };
-    case "panthera":
+    case "panthera2":
     {
         #include "map_config\SAR_cfg_grps_panthera.sqf"
     };
