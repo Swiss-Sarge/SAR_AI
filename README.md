@@ -3,6 +3,15 @@ SAR_AI
 
 SAR AI framework for DayZ 
 
+Version 1.0.3
+
+- Fully configurable logging of bandit or survivor AI kills
+- Optimized aggro from friendly fire - one hit is now sufficient to aggro the AI
+- Reworked AI heli turret issue - you should no longer see the error message with 2 elements expected, 3 given
+- Fixed heli spawn bug
+- included functions to query cfg files for turrets (not used atm)
+- Included hit Eventhandler for heli - this will only work if you do a decent amount of damage, with a normal weapon this EH will not trigger
+
 Version 1.0.2
 
 Latest changes:
