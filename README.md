@@ -11,6 +11,7 @@ Latest changes:
 - implemented configurable humanity system
 - some minor fixes for debugging
 - implemented version number to track issues reported
+- got rid of the AI communication and warning about friendly fire (CHECK INSTALL down below, there was an addition!)
 
 
 Version 1.0.0
@@ -44,7 +45,12 @@ check out the init.sqf file as an example, you will need to add to the end of yo
        // run SAR_AI
        [] execVM "addons\SARGE\SAR_AI_init.sqf";
 
+A1)
+Adjust your description.ext, add the following line at the end:
 
+       #include "addons\SARGE\SAR_define.hpp"
+       
+       
 B)
 While debugging and testing, set
 
