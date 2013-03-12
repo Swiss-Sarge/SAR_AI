@@ -41,7 +41,7 @@ if (_argc >1) then {
             _leader_group = SAR_leader_sold_list call BIS_fnc_selectRandom;
             _riflemenlist = SAR_soldier_sold_list;
             _tracewhat=['Bandit1_DZ', 'BanditW1_DZ'];
-            _initstring = format["null = [this,%1] execVM 'addons\SARGE\SAR_trace_from_vehicle.sqf';",_tracewhat];
+            _initstring = format["null = [this,%1] execVM 'addons\SARGE\SAR_trace_from_vehicle.sqf';this setIdentity 'id_SAR_sold_man';",_tracewhat];
         };
         case 2: // survivors
         {
@@ -49,7 +49,7 @@ if (_argc >1) then {
             _leader_group = SAR_leader_surv_list call BIS_fnc_selectRandom;
             _riflemenlist = SAR_soldier_surv_list;
             _tracewhat=['Bandit1_DZ', 'BanditW1_DZ'];
-            _initstring = format["null = [this,%1] execVM 'addons\SARGE\SAR_trace_from_vehicle.sqf';",_tracewhat];
+            _initstring = format["null = [this,%1] execVM 'addons\SARGE\SAR_trace_from_vehicle.sqf';this setIdentity 'id_SAR_surv_lead';",_tracewhat];
         };
         case 3: // bandits
         {
@@ -57,7 +57,7 @@ if (_argc >1) then {
             _leader_group = SAR_bandit_band_list call BIS_fnc_selectRandom;
             _riflemenlist = SAR_bandit_band_list;
             _tracewhat=['CAManBase'];
-            _initstring = format["null = [this,%1] execVM 'addons\SARGE\SAR_trace_from_vehicle.sqf';",_tracewhat];
+            _initstring = format["null = [this,%1] execVM 'addons\SARGE\SAR_trace_from_vehicle.sqf';this setIdentity 'id_SAR_band';",_tracewhat];
         };
         default
         {
@@ -65,7 +65,7 @@ if (_argc >1) then {
             _leader_group = SAR_leader_sold_list call BIS_fnc_selectRandom;
             _riflemenlist = SAR_soldier_sold_list;
             _tracewhat=['Bandit1_DZ', 'BanditW1_DZ'];
-            _initstring = format["null = [this,%1] execVM 'addons\SARGE\SAR_trace_from_vehicle.sqf';",_tracewhat];
+            _initstring = format["null = [this,%1] execVM 'addons\SARGE\SAR_trace_from_vehicle.sqf';this setIdentity 'id_SAR_band';",_tracewhat];
         };
     };
 
@@ -74,7 +74,7 @@ if (_argc >1) then {
     _leader_group = SAR_leader_sold_list call BIS_fnc_selectRandom;
     _riflemenlist = SAR_soldier_sold_list;
     _tracewhat=['Bandit1_DZ', 'BanditW1_DZ'];
-    _initstring = format["null = [this,%1] execVM 'addons\SARGE\SAR_trace_from_vehicle.sqf';",_tracewhat];
+    _initstring = format["null = [this,%1] execVM 'addons\SARGE\SAR_trace_from_vehicle.sqf';this setIdentity 'id_SAR_band';",_tracewhat];
 };
 
 _leader_weapon_name = SAR_leader_weapon_list call BIS_fnc_selectRandom;
