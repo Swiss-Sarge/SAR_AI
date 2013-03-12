@@ -1,6 +1,6 @@
 // =========================================================================================================
 //  SAR_AI - DayZ AI library
-//  Version: 1.0.0 
+//  Version: 1.0.2 
 //  Author: Sarge (sarge@krumeich.ch) 
 //
 //		Wiki: to come
@@ -128,7 +128,7 @@ SAR_DEBUG_mon = {
 
     diag_log "--------------------Start of AI monitor values -------------------------";
     {
-        diag_log format["DEBUG: %1",_x];
+        diag_log format["SAR EXTREME DEBUG: %1",_x];
     }foreach SAR_AI_monitor;
     
     diag_log "--------------------End of AI monitor values   -------------------------";
