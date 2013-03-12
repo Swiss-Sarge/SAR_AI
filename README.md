@@ -1,13 +1,25 @@
 SAR_AI
 ======
 
-SAR AI framework for DayZ Version 1.0.0
+SAR AI framework for DayZ 
+
+Version 1.0.2
+
+Latest changes:
+
+- fixed bug with respawning units in the grids
+- implemented configurable humanity system
+- some minor fixes for debugging
+- implemented version number to track issues reported
+
+
+Version 1.0.0
 
 Latest changes:
 
 - moved all the map specific configuration into a seperate folder and corresponding config files. 
-- The config files for the grids for Chernarus, Taviana and Namalsk are adjusted, if you want to run another map, you will need to adjust these values to suit your map.
-- The config files for the AI spawns (static and automatic) are empty for all maps except Namalsk, Taviana and Chernarus. You will need to configure them yourself.
+- The config files for the grids for Chernarus, Taviana and Namalsk, Lingor and Panthera are adjusted, if you want to run another map, you will need to adjust these values to suit your map.
+- The config files for the AI spawns (static and automatic) are empty for all maps except Namalsk, Taviana, Lingor, Panthera and Chernarus. You will need to configure them yourself.
 
 -----------------
 
@@ -47,6 +59,8 @@ in SAR_AI_init.sqf, and
        KRON_UPS_Debug = 1;
 
 in Init_UPSMON.sqf
+
+SWITCH THESE OFF WHEN YOU GO LIVE!
 
 C)
 Test WITHOUT battleeye enabled!
