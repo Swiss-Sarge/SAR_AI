@@ -1,6 +1,6 @@
 // =========================================================================================================
 //  SAR_AI - DayZ AI library
-//  Version: 1.0.0 
+//  Version: 1.0.2 
 //  Author: Sarge (sarge@krumeich.ch) 
 //
 //		Wiki: to come
