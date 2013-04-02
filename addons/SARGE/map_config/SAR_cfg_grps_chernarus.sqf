@@ -51,10 +51,10 @@ that means:
 100% for survivors
 
 the last set of numbers : 0,4,3
-thats the maximum number of ppl in the group (plus 1 leader)
+thats the maximum number of ppl in the group (including the leader)
 0 bandits
-max 4 (+1 leader) soldiers
-max 3 (+1 leader) survivors
+max 4  soldiers
+max 3  survivors
 this number is randomized
 
  
@@ -64,7 +64,7 @@ this number is randomized
 //
  
 // Kamenka, 0 bandit groups, 1 soldier groups, 2 survivor groups - spawn probability ba,so,su - maximum group members ba,so,su
-_check = [["max_grps","rnd_grps","max_p_grp"],[[0,1,2],[0,75,100],[0,4,3]],"SAR_area_0_0"] call SAR_AI_mon_upd; 
+_check = [["max_grps","rnd_grps","max_p_grp"],[[0,1,2],[0,100,100],[0,2,1]],"SAR_area_0_0"] call SAR_AI_mon_upd; 
 
 // Balota, 1 bandit groups, 0 soldier groups, 2 survivor groups - spawn probability ba,so,su - maximum group members ba,so,su
 _check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,2],[80,0,80],[2,0,3]],"SAR_area_1_0"] call SAR_AI_mon_upd; 
@@ -120,6 +120,12 @@ _check = [["max_grps","rnd_grps","max_p_grp"],[[2,0,0],[75,0,0],[3,0,0]],"SAR_ar
 // Krasno, 0 bandit groups, 1 soldier groups, 1 survivor groups - spawn probability ba,so,su - maximum group members ba,so,su
 _check = [["max_grps","rnd_grps","max_p_grp"],[[0,1,1],[0,75,75],[0,4,2]],"SAR_area_4_5"] call SAR_AI_mon_upd; 
 
+// test south of lopatino, 1 bandit groups, 0 soldier groups, 0 survivor groups - spawn probability ba,so,su - maximum group members ba,so,su
+_check = [["max_grps","rnd_grps","max_p_grp"],[[1,0,0],[100,0,0],[6,0,0]],"SAR_area_0_3"] call SAR_AI_mon_upd; 
+
+
+
+
 //
 // Definition of area markers for static spawns
 //
@@ -153,7 +159,7 @@ _this setMarkerDir 59.354115;
 SAR_marker_helipatrol_nwaf = _this;
 
 // NEAF, heli patrol area
-_this = createMarker ["SAR_AREA_NEAF", [12034.16, 12725.376, 0]];
+_this = createMarker ["SAR_patrol_NEAF", [12034.16, 12725.376, 0]];
 _this setMarkerShape "RECTANGLE";
 _this setMarkeralpha 0;
 _this setMarkerType "Flag";
@@ -163,14 +169,23 @@ SAR_marker_helipatrol_neaf = _this;
 
 
 // SAR DEBUG AREA - at NWAF
-_this = createMarker ["SAR_area_DEBUG", [4525.3335, 10292.299]];
+_this = createMarker ["SAR_marker_DEBUG", [4600.3335, 10240.299]];
 _this setMarkerShape "RECTANGLE";
-_this setMarkeralpha 0;
+_this setMarkeralpha 1;
 _this setMarkerType "Flag";
 _this setMarkerBrush "Solid";
-_this setMarkerSize [50, 50];
+_this setMarkerSize [100, 100];
 _this setMarkerDir 59.354115;
-SAR_area_DEBUG = _this;
+SAR_marker_DEBUG = _this;
+
+// SAR DEBUG AREA - at Skaly
+_this = createMarker ["SAR_marker_DEBUG1", [2519.3335, 13140.299]];
+_this setMarkerShape "RECTANGLE";
+_this setMarkeralpha 1;
+_this setMarkerType "Flag";
+_this setMarkerBrush "Solid";
+_this setMarkerSize [100, 100];
+SAR_marker_DEBUG1 = _this;
 
 // ----------------------------------------------------------------------------------------
 // End of area marker definition section
@@ -186,48 +201,45 @@ diag_log format["SAR_AI: Static Spawning for Helicopter patrols started"];
 //                  Areaname
 //                  1,2,3 = soldier, survivors, bandits
 //
+//                  respawn
+//                  true or false
 
  //Heli Patrol NWAF
-[SAR_marker_helipatrol_nwaf,1] call SAR_AI_heli;
+[SAR_marker_helipatrol_nwaf,1,true] call SAR_AI_heli;
 
 //Heli Patrol NEAF
-[SAR_marker_helipatrol_neaf,1] call SAR_AI_heli;
+[SAR_marker_helipatrol_neaf,1,true] call SAR_AI_heli;
 
 // Heli patrol south coast
-[SAR_marker_helipatrol_southcoast,1] call SAR_AI_heli;
-[SAR_marker_helipatrol_southcoast,1] call SAR_AI_heli;
+[SAR_marker_helipatrol_southcoast,1,true] call SAR_AI_heli;
+[SAR_marker_helipatrol_southcoast,1,true] call SAR_AI_heli;
 
 // heli patrol east coast
-[SAR_marker_helipatrol_eastcoast,1] call SAR_AI_heli;
-[SAR_marker_helipatrol_eastcoast,1] call SAR_AI_heli;
+[SAR_marker_helipatrol_eastcoast,1,true] call SAR_AI_heli;
+[SAR_marker_helipatrol_eastcoast,1,true] call SAR_AI_heli;
 
 diag_log format["SAR_AI: Static Spawning for Helicopter patrols finished"];
 
 //---------------------------------------------------------------------------------
 // Static, predefined infantry patrols in defined areas with configurable units
 //---------------------------------------------------------------------------------
-// Example: [SAR_area_DEBUG,1,0,1,""] call SAR_AI;
+// Example: [SAR_marker_DEBUG,1,0,1,"",true] call SAR_AI;
 // 
-// SAR_area_DEBUG = areaname (must have been defined further up)
+// SAR_marker_DEBUG = areaname (must have been defined further up, and MUST NOT BE similar to SAR_area_ ! THIS IS IMPORTANT!
 // 1 = type of group (1 = soldiers, 2 = survivors, 3 = bandits)
 // 0 = amount of snipers in the group
 // 1 = amount of rifleman in the group
-//
-//
+// "" = action, possible values: "noupsmon","fortify","ambush","patrol"
+// true = respawning group, true or false
 
 // Example entries:
 // SARGE DEBUG - Debug group
 // military, 0 snipers, 1 riflemen, patrol
-//[SAR_area_DEBUG,1,0,1,""] call SAR_AI;
+//[SAR_marker_DEBUG,1,0,1,"fortify",true] call SAR_AI;
 
-// military, 2 snipers, 4 riflemen, patrol
-//[SAR_area_DEBUG,1,2,4,""] call SAR_AI;
+//[SAR_marker_DEBUG1,1,0,2,"patrol",false] call SAR_AI;
+//[SAR_marker_DEBUG1,2,0,2,"patrol",false] call SAR_AI;
 
-// survivors, 1 snipers, 3 riflemen, patrolling the NWAF
-//[SAR_marker_helipatrol_nwaf,2,1,3,""] call SAR_AI;
-
-// bandits, 5 snipers, 2 riflemen, patrolling the NWAF
-//[SAR_marker_helipatrol_nwaf,3,5,2,""] call SAR_AI;
 //---------------------------------------------------------------------------------
 
 // add here if needed
@@ -237,5 +249,5 @@ diag_log format["SAR_AI: Static Spawning for Helicopter patrols finished"];
 
 // ---- end of configuration area ----
 
-diag_log format["SAR_AI: Static Spawning for infantry patrols finished"];
+diag_log format["SAR_AI: Static Spawning for infantry and heli patrols finished"];
 
