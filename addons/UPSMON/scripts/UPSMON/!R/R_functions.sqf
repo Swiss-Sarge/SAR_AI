@@ -39,7 +39,7 @@ R_ThrowSmoke =
 		_moves = ["AwopPercMstpSgthWrflDnon_Start1","AwopPknlMstpSgthWrflDnon_Start","AwopPpneMstpSgthWrflDnon_Start"];
 
 		_unit = _this select 0;
-		_shell = "SmokeShell";
+		_shell = ["SmokeShell","SmokeShellGreen","SmokeShellYellow","SmokeShellBlue","SmokeShellRed"] call BIS_fnc_selectRandom;
 		_unitPos = unitPos _unit; 
 		
 		//Animation

@@ -96,7 +96,7 @@ KRON_UPS_ambushdist = 70;
 KRON_UPS_paradropdist = 250;
 
 //Frequency for doing calculations for each squad.
-KRON_UPS_Cycle = 10; //org 20
+KRON_UPS_Cycle = 20; //org 20
 
 //Time that lider wait until doing another movement, this time reduced dynamically under fire, and on new targets
 KRON_UPS_react = 60;
