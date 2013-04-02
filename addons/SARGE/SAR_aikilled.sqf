@@ -1,10 +1,10 @@
 // =========================================================================================================
 //  SAR_AI - DayZ AI library
-//  Version: 1.0.3 
+//  Version: 1.1.0 
 //  Author: Sarge (sarge@krumeich.ch) 
 //
 //		Wiki: to come
-//		Forum: to come
+//		Forum: http://opendayz.net/index.php?threads/sarge-ai-framework-public-release.8391/
 //		
 // ---------------------------------------------------------------------------------------------------------
 //  Required:
@@ -13,7 +13,7 @@
 //  
 // ---------------------------------------------------------------------------------------------------------
 //   SAR_aikilled.sqf
-//   last modified: 11.3.2013
+//   last modified: 1.4.2013
 // ---------------------------------------------------------------------------------------------------------
 //  Parameters:
 //  [ _ai (AI unit that was killed, 
@@ -47,7 +47,7 @@ if (SAR_EXTREME_DEBUG) then {
 
 if(isPlayer _aikiller) then {
     
-    if (_aikilled_group_side == west) then {
+    if (_aikilled_group_side == SAR_AI_friendly_side) then {
         if(SAR_DEBUG)then{diag_log format["SAR_DEBUG: Adjusting humanity for survivor or soldier kill by %2 for %1",_aikiller,SAR_surv_kill_value];};
         _humanity = _aikiller getVariable ["humanity",0];
         _humanity = _humanity - SAR_surv_kill_value;
@@ -66,9 +66,5 @@ if(isPlayer _aikiller) then {
             _banditkills = _aikiller getVariable["banditKills",0];
             _aikiller setVariable["banditKills",_banditkills+1,true];        
         };
-
     };
-    
-    
 };
-

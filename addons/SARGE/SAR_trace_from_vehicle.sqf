@@ -1,79 +1,60 @@
 // =========================================================================================================
 //  SAR_AI - DayZ AI library
-//  Version: 1.0.3 
+//  Version: 1.1.0 
 //  Author: Sarge (sarge@krumeich.ch) 
 //
 //		Wiki: to come
-//		Forum: to come
+//		Forum: http://opendayz.net/index.php?threads/sarge-ai-framework-public-release.8391/
 //		
 // ---------------------------------------------------------------------------------------------------------
 //  Required:
-//  UPSMon  
+//  UPSMon  (special SARGE version)
 //  SHK_pos 
 //  
 // ---------------------------------------------------------------------------------------------------------
 //   SAR_trace_from_vehicle.sqf
-//   last modified: 6.3.2013
+//   last modified: 1.4.2013
 // ---------------------------------------------------------------------------------------------------------
 
-// SARGE DEBUG - TODO - eventually adjust the sleep timer
-//
-// Traces only from vehicles, so no ZED tracing, should not be used for infantry. Inlcudes refuel and reammo functions for the vehicle
+// Traces only from vehicles, so no ZED tracing, should not be used for infantry. Includes refuel and reammo functions for the vehicle
 
-private ["_ai","_magazintype","_entity_array","_humanity","_humanitylimit","_sleeptime","_detectrange","_tagged","_veh_weapons","_vehicle","_weapons","_weapon","_tracewhat"];
+private ["_ai","_entity_array","_humanity","_humanitylimit","_sleeptime","_detectrange","_veh_weapons","_vehicle","_weapons","_tracewhat","_reloadmag","_magazintypes"];
 
 _ai = _this select 0;
 _tracewhat = _this select 1;
 
 _weapons = weapons _ai;
-_weapon = _weapons select 0;
-_magazintype= getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines") select 0;
 
-_detectrange=300;
-_humanitylimit=-2000;
+_detectrange = SAR_DETECT_HOSTILE * 2;
+_humanitylimit = SAR_HUMANITY_HOSTILE_LIMIT;
 _humanity=0;
-_sleeptime=20;
+_sleeptime = SAR_DETECT_INTERVAL/2;
     
 while {alive _ai} do {
-
-    //diag_log "heartbeat";
 
     if !(isServer) then {
     
         _entity_array = (position _ai) nearEntities [_tracewhat, _detectrange];
         
         {
+            if(isPlayer _x) then {
 
-            if(vehicle _ai != _ai) then { // NPC in a vehicle
-
-                if(isPlayer _x) then {
-                    _humanity= _x getVariable ["humanity",0];
-                    _tagged = _x getVariable ["tagged",false];
-                    
-                    If (_humanity < _humanitylimit && rating _x > -10000 && !_tagged) then {
-                        if(SAR_EXTREME_DEBUG) then {
-                            diag_log format["SAR EXTREME DEBUG: reducing rating (trace_from_vehicle - vehicle) for player: %1", _x];
-                        };
-                        _x setVariable["tagged",true,true];
-                        _x addrating -10000;
-                        
+                _humanity= _x getVariable ["humanity",0];
+                
+                If (_humanity < _humanitylimit && rating _x > -10000) then {
+                    if(SAR_EXTREME_DEBUG) then {
+                        diag_log format["SAR EXTREME DEBUG: reducing rating (trace_from_vehicle) for player: %1", _x];
                     };
-                };
-            
-            } else { //NPC on foot
 
-                if(isPlayer _x) then {
-                    _humanity= _x getVariable ["humanity",0];
+                    _x addrating -10000;
+                    _target = _x;                    
+                    {
+                        _x doTarget _target;
+                        _x doFire _target;
+                    } foreach units group _ai; 
 
-                    If (_humanity < _humanitylimit && rating _x > -10000) then {
-                        if(SAR_EXTREME_DEBUG) then {
-                            diag_log format["SAR EXTREME DEBUG: reducing rating (trace_from_vehicle - foot) for player: %1", _x];
-                        };
-                        _x addrating -10000;
-                    };
                 };
             };
-
             
         } forEach _entity_array;
     };
@@ -98,17 +79,50 @@ while {alive _ai} do {
                 if (SAR_EXTREME_DEBUG) then {diag_log "SAR_EXTREME_DEBUG: Vehicle refueled";};
             };
 
-        } else {
+        } else { // NPC on foot
             
-            if ((_ai ammo _weapon == 0) || ((count magazines _ai) < 1))  then {
-                {_ai removeMagazine _x} forEach magazines _ai;
-                _ai addMagazine _magazintype;
-                if (SAR_EXTREME_DEBUG) then {diag_log "SAR_EXTREME_DEBUG: Infantry reloaded";};
-            };
-        };
+            // loop through weapons array
+            {
+                // check if weapon rifle exists on AI
+                if([_x,"Rifle"] call SAR_isKindOf_weapon) then {
 
+                    _reloadmag = true;
+                    _magazintypes = getArray (configFile >> "CfgWeapons" >> _x >> "magazines");
+                    
+                    // loop through valid magazines of weapon and check if there is a magazine for that weapon on the AI
+                    {
+                        if (_x in magazines _ai) then {
+                            _reloadmag = false;
+                        };
+                    } foreach _magazintypes;
+                    
+                    if ((_ai ammo _x == 0) || (_reloadmag))  then {
+                        _ai removeMagazines (_magazintypes select 0);
+                        _ai addMagazine (_magazintypes select 0);
+                        if (SAR_EXTREME_DEBUG) then {diag_log "SAR_EXTREME_DEBUG: Infantry reloaded a magazine for a rifle.";};
+                    };
+                };
+
+                if([_x,"Pistol"] call SAR_isKindOf_weapon) then {
+
+                    _reloadmag = true;
+                    _magazintypes = getArray (configFile >> "CfgWeapons" >> _x >> "magazines");
+                    // loop through valid magazines of weapon and check if there is a magazine for that weapon on the AI
+                    {
+                        if (_x in magazines _ai) then {
+                            _reloadmag = false;
+                        };
+                    } foreach _magazintypes;
+                    
+                    if ((_ai ammo _x == 0) || (_reloadmag))  then {
+                        _ai removeMagazines (_magazintypes select 0);
+                        _ai addMagazine (_magazintypes select 0);
+                        if (SAR_EXTREME_DEBUG) then {diag_log "SAR_EXTREME_DEBUG: Infantry reloaded a magazine for a pistol.";};
+                    };
+                };
+                
+            } foreach _weapons;
+        };
     };
-    
     sleep _sleeptime;
-    
 };

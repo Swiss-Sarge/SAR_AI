@@ -1,6 +1,6 @@
 // =========================================================================================================
 //  SAR_AI - DayZ AI library
-//  Version: 1.0.3 
+//  Version: 1.1.0 
 //  Author: Sarge (sarge@krumeich.ch) 
 //
 //		Wiki: to come
@@ -12,12 +12,22 @@
 //  SHK_pos 
 //  
 // ---------------------------------------------------------------------------------------------------------
-// SAR_AI_init.sqf - main init and control file of the framework  
+// SAR_AI_init.sqf - main init and control file of the framework 
+// last modified: 1.4.2013 
 // ---------------------------------------------------------------------------------------------------------
 
-private ["_worldname","_startx","_starty","_gridsize_x","_gridsize_y","_gridwidth","_i","_ii","_markername","_triggername","_trig_act_stmnt","_trig_deact_stmnt","_trig_cond","_check"];
+private ["_worldname","_startx","_starty","_gridsize_x","_gridsize_y","_gridwidth","_i","_ii","_markername","_triggername","_trig_act_stmnt","_trig_deact_stmnt","_trig_cond","_check","_grp","_script_handler"];
 
-SAR_version = "1.0.3";
+SAR_version = "1.1.0";
+
+// establish PvEH on all clients
+
+if (!isServer) then { // only run this on the connected clients
+    
+    "adjustrating" addPublicVariableEventHandler {((_this select 1) select 0) addRating ((_this select 1) select 1);	};
+
+}; 
+
 
 if (!isServer) exitWith {}; // only run this on the server
 
@@ -34,76 +44,53 @@ SAR_AI                      = compile preprocessFileLineNumbers "addons\SARGE\SA
 
 call compile preprocessFileLineNumbers "addons\SARGE\SAR_functions.sqf";
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
-//        These Variables should be checked and set as required
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Public Eventhandlers
 
-// side definitions, better NOT change
-createCenter east;
-
-EAST setFriend [WEST, 0]; 
-WEST setFriend [EAST, 0];
+"doMedicAnim" addPublicVariableEventHandler {((_this select 1) select 0) playActionNow ((_this select 1) select 1);	};
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-// Humanity Value that gets substracted for a survivor or soldier AI kill
-SAR_surv_kill_value = 250;
+//
+// include user config values
+//
+
+#include "SAR_config.sqf"
+
+//
+// make some config variables public
+//
+
 publicvariable "SAR_surv_kill_value";
-
-// Humanity Value that gets ADDED for a bandit AI kill
-SAR_band_kill_value = 50;
 publicvariable "SAR_band_kill_value";
-
-// Log AI kills
-SAR_log_AI_kills = true;
-
-// time after which units and groups despawn after players have left the area
-SAR_DESPAWN_TIMEOUT = 120; // 2 minutes
-
-// time after which dead AI bodies are deleted
-SAR_DELETE_TIMEOUT = 120; // 2 minutes
-
-// Shows extra debug info in .rpt
-SAR_DEBUG = true;
 publicvariable "SAR_DEBUG";
-
-// careful with setting this, this shows a LOT, including the grid properties and definitions for every spawn and despawn event
-SAR_EXTREME_DEBUG = false;
 publicvariable "SAR_EXTREME_DEBUG";
+publicvariable "SAR_DETECT_HOSTILE";
+publicvariable "SAR_DETECT_INTERVAL";
+publicvariable "SAR_HUMANITY_HOSTILE_LIMIT";
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-// type of soldier lists, only allowed DayZ classes listed. adjust if you run rmod or another map that allows different classes
+// side definitions
+createCenter east;
+createCenter resistance;
 
-// military AI
-SAR_leader_sold_list = ["Rocket_DZ"];
-SAR_sniper_sold_list = ["Sniper1_DZ"];
-SAR_soldier_sold_list = ["Soldier1_DZ","Camo1_DZ"];
+// unfriendly AI bandits
+EAST setFriend [WEST, 0]; 
+EAST setFriend [RESISTANCE, 0];
 
-// bandit AI
-SAR_bandit_band_list = ["Bandit1_DZ", "BanditW1_DZ"];
+// Players 
+WEST setFriend [EAST, 0];
+WEST setFriend [RESISTANCE, 1];
 
-// survivor AI
-SAR_leader_surv_list = ["Survivor3_DZ"]; 
-SAR_sniper_surv_list = ["Sniper1_DZ"];
-SAR_soldier_surv_list = ["Survivor2_DZ","SurvivorW2_DZ","Soldier_Crew_PMC"];
+// friendly AI 
+RESISTANCE setFriend [EAST, 0];
+RESISTANCE setFriend [WEST, 1];
 
-// potential weapon list for leaders
-SAR_leader_weapon_list = ["M4A1","M4A3_CCO_EP1","AK_47_M"];
+SAR_AI_friendly_side = resistance;
+SAR_AI_unfriendly_side = east;
 
-//potential weapon list for riflemen
-SAR_rifleman_weapon_list = ["M4A1","M16A2","M4A1_Aim","AK_74","LeeEnfield","M1014"];
+SAR_leader_number = 0;
 
-//potential weapon list for snipers
-SAR_sniper_weapon_list = ["M4A1_Aim","SVD_CAMO","Huntingrifle"];
-
-// define the type of heli you want to use here for the heli patrols
-SAR_heli_type="UH1H_DZ";
-
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------
-// Only change things below this line if you REALLY know what you are doing
-//-----------------------------------------------------------------------------------------------------------------------------------------------
 
 diag_log format["SAR_AI: Area & Trigger definition Started"];
 
@@ -166,6 +153,10 @@ switch (_worldname) do {
 
 };
 
+//
+// Generate marker & trigger grid & activate it
+//
+
 SAR_area_ = text format ["SAR_area_%1","x"];
 
 for [{_i=0}, {_i < _gridsize_y}, {_i=_i+1}] do
@@ -173,6 +164,10 @@ for [{_i=0}, {_i < _gridsize_y}, {_i=_i+1}] do
     for [{_ii=0}, {_ii < _gridsize_x}, {_ii=_ii+1}] do
     {
     
+        //
+        // Define marker area
+        //
+        
         _markername = format["SAR_area_%1_%2",_ii,_i];
         
         _this = createMarker[_markername,[_startx + (_ii * _gridwidth * 2),_starty + (_i * _gridwidth * 2)]];
@@ -188,33 +183,49 @@ for [{_i=0}, {_i < _gridsize_y}, {_i=_i+1}] do
                 
         Call Compile Format ["SAR_area_%1_%2 = _this",_ii,_i]; 
         
-        _triggername = format["SAR_trig_%1_%2",_ii,_i];
-        
-        _this = createTrigger ["EmptyDetector", [_startx + (_ii * _gridwidth * 2),_starty + (_i * _gridwidth * 2)]];
-        _this setTriggerArea [_gridwidth, _gridwidth, 0, true];
-        _this setTriggerActivation ["ANY", "PRESENT", true];
-        
-        Call Compile Format ["SAR_trig_%1_%2 = _this",_ii,_i]; 
+        if (SAR_dynamic_spawning) then {
 
-        _trig_act_stmnt = format["if (SAR_DEBUG) then {diag_log 'SAR DEBUG: trigger on in %1';};[thislist,'%1'] execVM'addons\SARGE\SAR_AI_spawn.sqf';",_triggername];
-        _trig_deact_stmnt = format["if (SAR_DEBUG) then {diag_log 'SAR DEBUG: trigger off in %1';};[thislist,thisTrigger,'%1'] execVM'addons\SARGE\SAR_AI_despawn.sqf';",_triggername];
-        
-        _trig_cond = "{isPlayer _x} count thisList > 0;";
-        
-        Call Compile Format ["SAR_trig_%1_%2 ",_ii,_i] setTriggerStatements [_trig_cond,_trig_act_stmnt , _trig_deact_stmnt];
+            //
+            // Define trigger area & conditions & actions
+            //
 
-        // standard definition - maxgroups (ba,so,su) - probability (ba,so,su) - max group members (ba,so,su)
-        SAR_AI_monitor set[count SAR_AI_monitor, [_markername,[1,1,1],[50,30,50],[3,5,3],[],[],[]]];
+            _triggername = format["SAR_trig_%1_%2",_ii,_i];
+            
+            _this = createTrigger ["EmptyDetector", [_startx + (_ii * _gridwidth * 2),_starty + (_i * _gridwidth * 2)]];
+            _this setTriggerArea [_gridwidth, _gridwidth, 0, true];
+            _this setTriggerActivation ["ANY", "PRESENT", true];
+            
+            Call Compile Format ["SAR_trig_%1_%2 = _this",_ii,_i]; 
+
+            _trig_act_stmnt = format["if (SAR_DEBUG) then {diag_log 'SAR DEBUG: trigger on in %1';};[thislist,'%1'] execVM'addons\SARGE\SAR_AI_spawn.sqf';",_triggername];
+            _trig_deact_stmnt = format["if (SAR_DEBUG) then {diag_log 'SAR DEBUG: trigger off in %1';};[thislist,thisTrigger,'%1'] execVM'addons\SARGE\SAR_AI_despawn.sqf';",_triggername];
+            
+            _trig_cond = "{isPlayer _x} count thisList > 0;";
+            
+            Call Compile Format ["SAR_trig_%1_%2 ",_ii,_i] setTriggerStatements [_trig_cond,_trig_act_stmnt , _trig_deact_stmnt];
+
+        };
+        
+        // standard grid definition - maxgroups (ba,so,su) - probability (ba,so,su) - max group members (ba,so,su)
+        SAR_AI_monitor set[count SAR_AI_monitor, [_markername,[SAR_max_grps_bandits,SAR_max_grps_soldiers,SAR_max_grps_survivors],[SAR_chance_bandits,SAR_chance_soldiers,SAR_chance_survivors],[SAR_max_grpsize_bandits,SAR_max_grpsize_soldiers,SAR_max_grpsize_survivors],[],[],[]]];
 
     };
 };
 
 // ----------------------------------------------------------------------------
-// end of Setup aremarker & trigger grid - DO NOT CHANGE
+// end of Setup aremarker & trigger grid
 // ----------------------------------------------------------------------------
 
 //
-// include group & spawn definitions for automatic & static svehicle and infantry pawns
+//  Enable the SAR garbage collector & watchdog
+//
+    
+    
+[] execVM "addons\SARGE\SAR_group_monitor.sqf";
+    
+
+//
+// include group & spawn definitions for automatic & static vehicle and infantry spawns
 //
 
 switch (_worldname) do {
@@ -253,3 +264,12 @@ switch (_worldname) do {
     
 };
 
+//
+// initialize the fix for sharing vehicles between survivors and bandits
+//
+
+if(SAR_FIX_VEHICLE_ISSUE) then {
+
+    _script_handler = [] execVM "addons\SARGE\SAR_vehicle_fix.sqf";
+    waitUntil {scriptDone _script_handler};
+};
