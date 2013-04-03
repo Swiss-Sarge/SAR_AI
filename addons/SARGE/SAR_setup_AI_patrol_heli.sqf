@@ -117,7 +117,7 @@ _rndpos = [_patrol_area_name] call SHK_pos;
 _groupheli = createGroup _side;
 
 // protect group from being deleted by DayZ
-_group setVariable ["SAR_protect",true,true];
+_groupheli setVariable ["SAR_protect",true,true];
 
 // create the vehicle
 _heli = createVehicle [(SAR_heli_type call BIS_fnc_selectRandom), [(_rndpos select 0) + 10, _rndpos select 1, 80], [], 0, "FLY"];

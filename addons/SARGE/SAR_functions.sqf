@@ -53,7 +53,7 @@ SAR_AI_veh_trig_on_static = {
 // 
 //
 
-    private ["_unit_list","_unitlist","_trigger","_triggername","_player_joined","_player_left","_trig_unitlist","_units_leaving","_player_rating","_player_humanity","_bandits_in_trigger","_player_orig_group","_clientmachine"];
+    private ["_unit_list","_unitlist","_trigger","_triggername","_player_joined","_player_left","_trig_unitlist","_units_leaving","_player_rating","_player_humanity","_bandits_in_trigger","_player_orig_group","_clientmachine","_trigger_activator","_forEachIndex","_dummy"];
 
     if(!isServer) exitWith {};
     
