@@ -254,7 +254,7 @@ sleep _rnd ;
 	
 	
 	
-if (KRON_UPS_Debug>0) then {player sidechat format["%1: New instance %2 %3 %4",_grpidx,_npc getVariable ("UPSMON_grpid")]}; 
+if (KRON_UPS_Debug>0) then {diag_log format["%1: New instance %2 %3 %4",_grpidx,_npc getVariable ("UPSMON_grpid")]}; 
 
 
 	
@@ -315,7 +315,7 @@ if (KRON_UPS_Debug>0) then {player sidechat format["%1: New instance %2 %3 %4",_
 
 // ===============================================	
 	if (alive _npc) then {_exit = false;};	
-	if (KRON_UPS_Debug>0 && _exit) then {player sidechat format["%1 There is no alive members %1 %2 %3",_grpidx,typename _npc,typeof _npc, count units _npc]};	
+	if (KRON_UPS_Debug>0 && _exit) then {diag_log format["%1 There is no alive members %1 %2 %3",_grpidx,typename _npc,typeof _npc, count units _npc]};	
 
 	
 	// exit if something went wrong during initialization (or if unit is on roof)
@@ -589,7 +589,7 @@ _noveh = if ("NOVEH" in _UCthis) then {true} else {false};
 	//spawned for squads created in runtime
 	_spawned= if ("SPAWNED" in _UCthis) then {true} else {false};
 	if (_spawned) then {
-		if (KRON_UPS_Debug>0) then {player sidechat format["%1: squad has been spawned, respawns %2",_grpidx,_respawnmax]}; 	
+		if (KRON_UPS_Debug>0) then {diag_log format["%1: squad has been spawned, respawns %2",_grpidx,_respawnmax]}; 	
 		switch (side _npc) do {
 			case west:
 			{ 	KRON_AllWest=KRON_AllWest + units _npc; 
@@ -974,7 +974,7 @@ while {_loop} do {
 				_react = _react + 100;		
 				_waiting = -1;	
 				if (format ["%1",_fixedtargetPos] != "[0,0]") then {_nowp = false};								
-				if (KRON_UPS_Debug>0) then {player sidechat format["%1 called for reinforcement %2",_grpidx,_fixedtargetPos]};	
+				if (KRON_UPS_Debug>0) then {diag_log format["%1 called for reinforcement %2",_grpidx,_fixedtargetPos]};	
 			} else {
 				// !(global or id call) AND send
 				if ( !(KRON_UPS_reinforcement || _rfidcalled) && (_reinforcementsent)) then {
@@ -986,7 +986,7 @@ while {_loop} do {
 						call (compile format ["KRON_UPS_reinforcement%1_pos = [0,0]",_rfid]);
 						call (compile format ["KRON_UPS_reinforcement%1 = false",_rfid]);
 					};
-					if (KRON_UPS_Debug>0) then {player sidechat format["%1 reinforcement canceled",_grpidx]};	
+					if (KRON_UPS_Debug>0) then {diag_log format["%1 reinforcement canceled",_grpidx]};	
 				};
 			};
 		};		
@@ -1134,7 +1134,7 @@ while {_loop} do {
 				_fightmode = "fight";
 				_npc setCombatMode "RED";  // !R
 				_react = KRON_UPS_react;
-				if (KRON_UPS_Debug>0) then {player sidechat format["%1: Enemy detected %2",_grpidx, typeof _target]}; 	
+				if (KRON_UPS_Debug>0) then {diag_log format["%1: Enemy detected %2",_grpidx, typeof _target]}; 	
 				
 				if (_nowpType == 1) then {
 					nul = [_npc] call R_FN_deleteObsoleteWaypoints;
@@ -1156,7 +1156,7 @@ while {_loop} do {
 		//If the enemy has moved away from the radio coverage is not a reinforcement sent we will have lost track
 		if ( _fightmode != "walk" && !isnull(_target) && _dist < 15 &&  _npc knowsabout _target < R_knowsAboutEnemy ) then {			
 			//If squad is near last position and no target clear position of target
-			if (KRON_UPS_Debug>0) then {player sidechat format["%1: Target lost",_grpidx]}; 				
+			if (KRON_UPS_Debug>0) then {diag_log format["%1: Target lost",_grpidx]}; 				
 			_fightmode="walk";
 			_speedmode = _orgSpeed;			
 			_target = objnull;
@@ -1202,7 +1202,7 @@ while {_loop} do {
 			
 			//Puts a mine if near road
 			if ( _ambushType == 1 ) then {			
-				if (KRON_UPS_Debug>0) then {player sidechat format["%1: Puting mine for ambush",_grpidx]}; 	
+				if (KRON_UPS_Debug>0) then {diag_log format["%1: Puting mine for ambush",_grpidx]}; 	
 				_npc setBehaviour "careless";
 				_dir1 = getDir _npc;
 				_mineposition = [position _npc,_dir1, (KRON_UPS_ambushdist / 1.2)] call MON_GetPos2D;	 				
@@ -1279,7 +1279,7 @@ while {_loop} do {
 						))
 				) then {				
 					sleep ((random 1) + 1); // let the enemy then get in the area 
-					if (KRON_UPS_Debug>0) then {player sidechat format["%1: ATTACK !",_grpidx]};
+					if (KRON_UPS_Debug>0) then {diag_log format["%1: ATTACK !",_grpidx]};
 					_nowp = false;		
 					_ambush = false;
 					_ambushed = false;
@@ -1408,11 +1408,11 @@ while {_loop} do {
 					if ((random 100 < 20) && !_nosmoke) then {	
 						nul= [_npc,_target] spawn MON_throw_grenade;
 					};					
-					if (KRON_UPS_Debug>0) then {player sidechat format["%1: Have been damaged moving",_grpidx,_makenewtarget]}; 
+					if (KRON_UPS_Debug>0) then {diag_log format["%1: Have been damaged moving",_grpidx,_makenewtarget]}; 
 				} else {
 					if ((_react >= KRON_UPS_react && _lastreact >=_minreact && count _targets <= 0) || _sowounded) then {										
 						//We shoot and we have no target, we move from position								
-						if (KRON_UPS_Debug>0) then {player sidechat format["%1: Under fire by unkown target, moving to newpos",_grpidx]}; 
+						if (KRON_UPS_Debug>0) then {diag_log format["%1: Under fire by unkown target, moving to newpos",_grpidx]}; 
 						//Covers the group with a smoke grenade
 						if (!_supressed && (random 100 < 80) && !_nosmoke) then {	
 							nul= [_npc,_target] spawn MON_throw_grenade;
@@ -1430,7 +1430,7 @@ while {_loop} do {
 							_targetdead = true;
 							_pursue = true;
 							//We have run out of targets continue to search				
-							if (KRON_UPS_Debug>0) then {player sidechat format["%1: Target defeated, searching",_grpidx]}; 						
+							if (KRON_UPS_Debug>0) then {diag_log format["%1: Target defeated, searching",_grpidx]}; 						
 						};	
 					};					
 				};
@@ -1790,7 +1790,7 @@ while {_loop} do {
 						if (count _roads > 0) then {_mineposition = position (_roads select 0);};
 						if ([_npc,_mineposition] call MON_CreateMine) then {
 							_Mines = _Mines -1;
-							if (KRON_UPS_Debug>0) then {player sidechat format["%1: %3 puting mine for %2",_grpidx,typeof _enemytanknear, side _npc]}; 									
+							if (KRON_UPS_Debug>0) then {diag_log format["%1: %3 puting mine for %2",_grpidx,typeof _enemytanknear, side _npc]}; 									
 						};													
 					};				
 				};
@@ -1829,7 +1829,7 @@ while {_loop} do {
 				
 				if  (!_newpos) then {
 					_targetPos=_lastpos;
-					if (KRON_UPS_Debug>0) then {player sidechat format["%1 Mantaining orders %2",_grpidx,_nomove]};	
+					if (KRON_UPS_Debug>0) then {diag_log format["%1 Mantaining orders %2",_grpidx,_nomove]};	
 				};
 			};			
 			if (KRON_UPS_Debug>=1) then {
@@ -1878,7 +1878,7 @@ while {_loop} do {
 					};	
 					_react = _react + 30;
 					_npc setBehaviour _Behaviour;
-					if (KRON_UPS_Debug>0) then {player sidechat format["%1 dead bodies found! set %2",_grpidx,_Behaviour, count _targets]};	
+					if (KRON_UPS_Debug>0) then {diag_log format["%1 dead bodies found! set %2",_grpidx,_Behaviour, count _targets]};	
 				}; 
 			};
 		};
@@ -1888,7 +1888,7 @@ while {_loop} do {
 		if (!_nowp && alive _npc && canmove _npc && _wptype == "MOVE" && _timeontarget >= 60 && _lastcurrpos select 0 == _currpos select 0 && _lastcurrpos select 1 == _currpos select 1) then {
 			[_npc] call MON_cancelstop;	
 			_makenewtarget = true;
-			if (KRON_UPS_Debug>0) then {player sidechat format["%1 stucked, moving",_grpidx]};	
+			if (KRON_UPS_Debug>0) then {diag_log format["%1 stucked, moving",_grpidx]};	
 		};
 		
 		_lastpos = _targetPos;
@@ -1923,7 +1923,7 @@ while {_loop} do {
 					{[_x,"AUTO"] spawn MON_setUnitPos;}	foreach units _npc;	
 					_npc setBehaviour _orgMode;									
 					
-					if (KRON_UPS_Debug>0) then {player sidechat format["%1 Without objectives, leaving combat mode",_grpidx]};	
+					if (KRON_UPS_Debug>0) then {diag_log format["%1 Without objectives, leaving combat mode",_grpidx]};	
 				};
 			};	
 
@@ -1951,7 +1951,7 @@ while {_loop} do {
 				} else {				
 					
 					if ((_nomove=="NOMOVE") && (_timeontarget>KRON_UPS_alerttime)) then {
-					if (KRON_UPS_Debug>0) then {player sidechat format["nomove: %1",_nomove]};	
+					if (KRON_UPS_Debug>0) then {diag_log format["nomove: %1",_nomove]};	
 						if (([_currPos,_orgPos] call KRON_distancePosSqr)<_closeenough) then {
 							_newpos = false;
 							_wptype = "HOLD";
@@ -1970,7 +1970,7 @@ while {_loop} do {
 						_rcurrPos = getpos _npc;
 						if (_rlastPos select 0 == _rcurrPos select 0 && _rlastPos select 1 == _rcurrPos select 1) then {
 							
-							if (KRON_UPS_Debug>0) then {player sidechat format["%1 !RstuckControl try to move",_grpidx]};						
+							if (KRON_UPS_Debug>0) then {diag_log format["%1 !RstuckControl try to move",_grpidx]};						
 							if (vehicle _npc != _npc) then {
 									_rstuckControl = _rstuckControl + 1;
 								if (_rstuckControl > 1) then {
@@ -2149,7 +2149,7 @@ while {_loop} do {
 					_targetPos = _avoidPos;_targettext = "_avoidPos";
 					_wptype = "MOVE";
 					_flankdir = 0;	
-					if (!_newpos && KRON_UPS_Debug>0) then {player sidechat format["%1 All Retreat!!!",_grpidx]};						
+					if (!_newpos && KRON_UPS_Debug>0) then {diag_log format["%1 All Retreat!!!",_grpidx]};						
 				};
 			};			
 			 
@@ -2245,7 +2245,7 @@ while {_loop} do {
 									sleep 1;
 									//Execute control stuck for helys
 									[vehicle _npc] spawn MON_HeliStuckcontrol;
-									if (KRON_UPS_Debug>0 ) then {player sidechat format["%1: flyingheiht=%2 paradrop at dist=%3",_grpidx, _flyInHeight, _GetOutDist,_rnd]}; 
+									if (KRON_UPS_Debug>0 ) then {diag_log format["%1: flyingheiht=%2 paradrop at dist=%3",_grpidx, _flyInHeight, _GetOutDist,_rnd]}; 
 								};				
 							};							
 						};					
@@ -2264,7 +2264,7 @@ while {_loop} do {
 					_timeout = time + (_dist2/2);
 				
 					if ( count _unitsIn > 0) then {							
-						if (KRON_UPS_Debug>0 ) then {player sidechat format["%1: Geting in combat vehicle targetdist=%2",_grpidx,_npc distance _target]}; 																						
+						if (KRON_UPS_Debug>0 ) then {diag_log format["%1: Geting in combat vehicle targetdist=%2",_grpidx,_npc distance _target]}; 																						
 						_npc setbehaviour "SAFE";
 						_npc setspeedmode "FULL";						
 						
@@ -2291,7 +2291,7 @@ while {_loop} do {
 									nul = [_vehicle,1000] spawn MON_domove;	
 									//Execute control stuck for helys
 									[_vehicle] spawn MON_HeliStuckcontrol;
-									if (KRON_UPS_Debug>0 ) then {player sidechat format["%1: Geting in combat vehicle after",_grpidx,_npc distance _target]}; 	
+									if (KRON_UPS_Debug>0 ) then {diag_log format["%1: Geting in combat vehicle after",_grpidx,_npc distance _target]}; 	
 								};									
 							};
 							
@@ -2594,8 +2594,8 @@ if(_gridspawn == "SAR_area_" && SAR_dynamic_group_respawn) then {
 };
 
 //does respawn of group =====================================================================================================
-if (_respawn && _respawnmax > 0 &&  !_surrended  && _dist > _closeenough && _allow_respawn) then {
-    if (KRON_UPS_Debug>0) then {player sidechat format["%1 doing respawn",_grpidx]};
+if (_respawn && _respawnmax > 0 &&  !_surrended  && _allow_respawn) then {
+    if (KRON_UPS_Debug>0) then {diag_log format["%1 doing respawn",_grpidx]};
 
     // sleep until respawn
     sleep SAR_respawn_waittime;
@@ -2631,6 +2631,8 @@ if (_respawn && _respawnmax > 0 &&  !_surrended  && _dist > _closeenough && _all
     
     _group=createGroup _side;
     
+    // protect group from being deleted by DayZ
+    _group setVariable ["SAR_protect",true,true];
     
     _leader = _group createUnit [_unittype, _orgpos, [], 0, "form"];
     
@@ -2650,7 +2652,7 @@ if (_respawn && _respawnmax > 0 &&  !_surrended  && _dist > _closeenough && _all
     _leader addMPEventHandler ["MPkilled", {Null = _this execVM "addons\SARGE\SAR_aikilled.sqf";}]; 
     _leader addMPEventHandler ["MPHit", {Null = _this execVM "addons\SARGE\SAR_aihit.sqf";}];
 
-    _cond="(side _this == west) && (side _target == west) && ('ItemBloodbag' in magazines _this)";
+    _cond="(side _this == west) && (side _target == SAR_AI_friendly_side) && ('ItemBloodbag' in magazines _this)";
 
     [nil,_leader,rADDACTION,"Give me a blood transfusion!", "addons\SARGE\SAR_interact.sqf","",1,true,true,"",_cond] call RE;
      
@@ -2671,7 +2673,7 @@ if (_respawn && _respawnmax > 0 &&  !_surrended  && _dist > _closeenough && _all
     
     _group selectLeader _leader;
     
-    if(SAR_EXTREME_DEBUG) then {diag_log format["SAR_EXTREME_DEBUG: respawned a leader unit %1",(typeOf _leader)];};
+    if(SAR_EXTREME_DEBUG) then {diag_log format["SAR_EXTREME_DEBUG: respawned a leader unit %1 at %2",(typeOf _leader),getPos _leader];};
         
     // copy team members (skip the leader)
     _i=0;
@@ -2679,7 +2681,7 @@ if (_respawn && _respawnmax > 0 &&  !_surrended  && _dist > _closeenough && _all
         _i=_i+1;
         if (_i>1) then {
 
-            _newunit = _grp createUnit [_x, _orgpos, [],0,"form"];
+            _newunit = _group createUnit [_x, _orgpos, [],0,"form"];
             
             switch (_grouptype) do {
             
@@ -2819,7 +2821,7 @@ if (_respawn && _respawnmax > 0 &&  !_surrended  && _dist > _closeenough && _all
         //_heli addEventHandler ["HandleDamage", {returnvalue = _this execVM "addons\SARGE\SAR_ai_vehicle_hit.sqf";}];  
         _heli addMPEventHandler ["MPHit", {Null = _this execVM "addons\SARGE\SAR_aihit.sqf";}];  
 
-        [_heli] joinSilent _groupheli;
+        [_heli] joinSilent _group;
         
         _leader action ["getInPilot", _heli];
         

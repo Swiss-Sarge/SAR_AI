@@ -35,16 +35,16 @@ SAR_chance_bandits = 50;
 SAR_chance_soldiers = 30;
 SAR_chance_survivors = 50;
 
-// maximum size of group (+1 Leader)
+// maximum size of group (including Leader)
 SAR_max_grpsize_bandits = 3;
 SAR_max_grpsize_soldiers = 3;
 SAR_max_grpsize_survivors = 3;
 
 
 // -----------------------------------------------
-// run fix for the issue that bandits cant travel in a vehicle with survivors EXPERIMENTAL, might not work 100%
+// run fix for the issue that bandits cant travel in a vehicle with survivors EXPERIMENTAL, might not work 100% DO NOT ENABLE for the time being
 // -----------------------------------------------
-SAR_FIX_VEHICLE_ISSUE = true;
+SAR_FIX_VEHICLE_ISSUE = false;
 
 // -----------------------------------------------
 // modify AI behaviour
@@ -115,11 +115,21 @@ SAR_DETECT_INTERVAL = 15;
 // Debug 
 // -----------------------------------------------
 
+// Show AI hits and kills by players 
+SAR_HITKILL_DEBUG = false;
+
 // Shows extra debug info in .rpt
 SAR_DEBUG = false;
 
 // careful with setting this, this shows a LOT, including the grid properties and definitions for every spawn and despawn event
 SAR_EXTREME_DEBUG = false;
+
+//
+// SET THIS TO 0 to hide the group markers on the map
+//
+//1=Enable or 0=disable debug. In debug could see a mark positioning de leader and another mark of the destination of movement, very useful for editing mission
+KRON_UPS_Debug = 0;
+
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //
@@ -163,11 +173,6 @@ KRON_UPS_searchVehicledist = 600; // 700, 900
 //Sides that are enemies of resistance // DO NOT CHANGE THIS
 KRON_UPS_Res_enemy = [east];
 
-//
-// SET THIS TO 0 to h1de the group markers on the map
-//
-//1=Enable or 0=disable debug. In debug could see a mark positioning de leader and another mark of the destination of movement, very useful for editing mission
-KRON_UPS_Debug = 0;
 
 //
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -356,6 +361,8 @@ SAR_sniper_surv_skills = [
 // ---------------------------------------------------------------------------------------------------------------------
 // Weapon & Item Loadout
 // ---------------------------------------------------------------------------------------------------------------------
+
+// a general note: you CAN use either rifles OR pistols. Do not use both. AI will get stuck after switching weapons.
 
 // potential weapon list for leaders
 SAR_leader_weapon_list = ["M4A1","M4A3_CCO_EP1","AK_47_M"];

@@ -22,7 +22,7 @@ private ["_allgroups","_running","_sleeptime","_usedgroups","_count_friendly_gro
 if (!isServer) exitWith {}; // only run this on the server
 
 _running = true;
-_sleeptime = 60;
+_sleeptime = 5;
 _usedgroups = [];
 
 while {_running} do {
@@ -49,7 +49,7 @@ while {_running} do {
         SAR_MAX_GRP_EAST_SPAWN = false;    
     };
     
-    
+    _alldebuggroups = [];
     
     {
         if (side _x == west) then{
@@ -67,7 +67,7 @@ while {_running} do {
                 
                 } foreach dayz_players;
 
-                if (_delete_group) then {
+                if (_delete_group && _x != SAR_grp_friendly && _x != SAR_grp_unfriendly) then {
                     //group has no owner anymore, remove the locking variable and let Rockets cleanup do the rest
                     _x setVariable ["SAR_protect",nil,true];
                     diag_log format["SARGE AI: marked an orphaned group for deletion: %1",_x];
@@ -77,7 +77,12 @@ while {_running} do {
 
         };
     
+        _alldebuggroups set [count _alldebuggroups,[_x, count (units _x),units _x]]; 
+    
     } foreach _allgroups;
+
+
+   // [_alldebuggroups] call SAR_debug_array;
 
     sleep _sleeptime;
 

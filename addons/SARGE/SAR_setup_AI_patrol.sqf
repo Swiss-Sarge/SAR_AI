@@ -97,6 +97,9 @@ _rndpos = [_patrol_area_name] call SHK_pos;
 
 _group = createGroup _side;
 
+// protect group from being deleted by DayZ
+_group setVariable ["SAR_protect",true,true];
+
 // create leader of the group
 _leader = _group createunit [_leader_group, [(_rndpos select 0) + 10, _rndpos select 1, 0], [], 0.5, "FORM"];
 

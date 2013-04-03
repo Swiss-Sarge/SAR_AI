@@ -63,9 +63,16 @@ SAR_AI_veh_trig_on_static = {
     _trigger = _this select 1;
     _triggername = _this select 2;
     _unitlist=[];
+    _trigger_activator = "";
     
     if(SAR_EXTREME_DEBUG) then {
-        diag_log format["SAR_EXTREME_DEBUG: Trigger -> %1 at %2 was activated by %3!",_triggername,getpos _trigger,_unit_list select 0];
+        {
+            if(isPlayer _x) then {
+                _trigger_activator = _unit_list select _forEachIndex;
+            };
+        } foreach _unit_list;
+        
+        diag_log format["SAR_EXTREME_DEBUG: Trigger -> %1 at %2 was activated by %3!",_triggername,getpos _trigger,_trigger_activator];
         //diag_log format["SAR_EXTREME_DEBUG: count thislist = %1, count getvariable unitlist = %2",{(isPlayer _x) && (vehicle _x == _x) } count _unit_list, count (_trigger getVariable['unitlist',[]])];
     };
     
@@ -119,6 +126,22 @@ SAR_AI_veh_trig_on_static = {
         // save old group to player
         _player_joined setVariable ["SAR_player_group",group _player_joined,true];
         
+        // add a dummy unit into the group to keep it alive
+        _dummy = (group _player_joined) createunit ["Rocket_DZ", [2500, 13100, 0], [],0, "FORM"];
+
+        [nil, _dummy, "per", rhideObject, true] call RE;
+        [nil, _dummy, "per", rallowDamage, false] call RE;
+        _dummy disableAI "FSM";
+        _dummy disableAI "ANIM";
+        _dummy disableAI "MOVE";
+        _dummy disableAI "TARGET";
+        _dummy disableAI "AUTOTARGET";
+        _dummy setVehicleInit "this setIdentity 'id_SAR';this hideObject true;this allowDamage false;";
+        [_dummy] joinSilent (group _player_joined);
+        
+        diag_log "Joined a dummy unit to the original player group";
+        
+        
         // set variable to group so it doesnt get cleaned up
         (group _player_joined) setVariable ["SAR_protect",true,true];
         
@@ -134,10 +157,9 @@ SAR_AI_veh_trig_on_static = {
                 if (!_bandits_in_trigger) then { // there are no bandits in the trigger list yet, create the group and add all units in the trigger list to the global resistance group
 
                     // join all units in the trigger list to that group
-                    {
-                        [_x] joinSilent SAR_grp_unfriendly;
-                    } foreach _trig_unitlist;
                     
+                    _trig_unitlist joinSilent SAR_grp_unfriendly;
+                     
                     if(SAR_EXTREME_DEBUG) then {diag_log "||||||||||||   A bandit joining created an unfriendly group and switched survivors in the trigger to the global unfriendly group!";};
                 
                 };
@@ -147,8 +169,14 @@ SAR_AI_veh_trig_on_static = {
                 
             } else { // bandit player is the first at the vehicle
 
+                diag_log format["Tried to join %1 to unfriendly group: %2",_player_joined,SAR_grp_unfriendly];
                 // join player to global resistance group
+                [_player_joined] joinSilent grpNull;
+                sleep .5;
                 [_player_joined] joinSilent SAR_grp_unfriendly;
+                sleep .5;
+                diag_log format["Player is now %1, part of group: %2",_player_joined,group _player_joined];
+
                 
             };
         
@@ -210,6 +238,13 @@ SAR_AI_veh_trig_on_static = {
         
         // join exiting player to his old group
         [_player_left] joinSilent _player_orig_group;
+        
+        // remove dummy unit fom group
+        {
+            if !(isPlayer _x) then {
+                deletevehicle _x;
+            }
+        } foreach units _player_orig_group;
 
         // remove anti cleanup variable from player group
         _player_orig_group setVariable ["SAR_protect",nil,true];
@@ -225,9 +260,7 @@ SAR_AI_veh_trig_on_static = {
                 if (!_bandits_in_trigger) then { // no more bandits in the group, remove all of the remaining units from the resistance group and delete the group
                     
                     // move all group members to the global friendly group
-                    {
-                        [_x] joinSilent SAR_grp_friendly;
-                    } foreach _unitlist;
+                    _unitlist joinSilent SAR_grp_friendly;
 
                     diag_log "||||||||||||   A leaving bandit switched a trigger unfriendly group to friendly status";
                     

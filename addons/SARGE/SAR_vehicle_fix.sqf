@@ -25,7 +25,7 @@
     // how to figure out IF theae have all been spawned ?
     sleep 15;
 
-    if(SAR_EXTREME_DEBUG) then {diag_log "SAR_EXTREME_DEBUG: Initialized fix for faction vehicle issue.";};
+    if(SAR_DEBUG) then {diag_log "SAR_DEBUG: Initialized fix for faction vehicle issue.";};
     
     
     SAR_grp_friendly = createGroup SAR_AI_friendly_side;
@@ -33,6 +33,8 @@
      
     SAR_grp_unfriendly = createGroup SAR_AI_unfriendly_side;
     SAR_grp_unfriendly setVariable ["SAR_protect",true,true];
+    
+    setGroupIconsVisible [false,false];
      
      // SARGE TODO: find a safe spot for all maps to store the 2 dummies
      // this will take some time, but is only run once at the server start
@@ -46,9 +48,15 @@
     _dummy disableAI "TARGET";
     _dummy disableAI "AUTOTARGET";
     _dummy setVehicleInit "this setIdentity 'id_SAR';this hideObject true;this allowDamage false;";
+    [_dummy] joinSilent SAR_grp_unfriendly;
     SAR_grp_unfriendly selectLeader _dummy;
 
-    _dummy = SAR_grp_friendly createunit ["Rocket_DZ", [2500,13100,0], [],0, "FORM"];
+    // set variable to group so it doesnt get cleaned up
+    SAR_grp_unfriendly setVariable ["SAR_protect",true,true];
+
+    
+    _dummy = SAR_grp_friendly createunit ["Rocket_DZ", [2500, 13100, 0], [],0, "FORM"];
+
     [nil, _dummy, "per", rhideObject, true] call RE;
     [nil, _dummy, "per", rallowDamage, false] call RE;
     _dummy disableAI "FSM";
@@ -57,7 +65,17 @@
     _dummy disableAI "TARGET";
     _dummy disableAI "AUTOTARGET";
     _dummy setVehicleInit "this setIdentity 'id_SAR';this hideObject true;this allowDamage false;";
+    [_dummy] joinSilent SAR_grp_friendly;
     SAR_grp_friendly selectLeader _dummy;
+
+    // set variable to group so it doesnt get cleaned up
+    SAR_grp_friendly setVariable ["SAR_protect",true,true];
+    
+    if(SAR_DEBUG) then {
+        diag_log format["Created a friendly placeholder group: %1",SAR_grp_friendly];
+        diag_log format["Created an unfriendly placeholder group: %1",SAR_grp_unfriendly];
+    };
+        
 
     //[dayz_serverObjectMonitor] call SAR_debug_array;
     

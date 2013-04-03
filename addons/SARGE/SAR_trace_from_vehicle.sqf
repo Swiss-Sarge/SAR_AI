@@ -21,7 +21,7 @@
 private ["_ai","_entity_array","_humanity","_humanitylimit","_sleeptime","_detectrange","_veh_weapons","_vehicle","_weapons","_tracewhat","_reloadmag","_magazintypes"];
 
 _ai = _this select 0;
-_tracewhat = _this select 1;
+_tracewhat = "CAManBase";
 
 _weapons = weapons _ai;
 
@@ -47,11 +47,11 @@ while {alive _ai} do {
                     };
 
                     _x addrating -10000;
-                    _target = _x;                    
-                    {
-                        _x doTarget _target;
-                        _x doFire _target;
-                    } foreach units group _ai; 
+                    // _target = _x;                    
+                    // {
+                        // _x doTarget _target;
+                        // _x doFire _target;
+                    // } foreach units group _ai; 
 
                 };
             };

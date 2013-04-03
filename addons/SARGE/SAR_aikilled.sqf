@@ -22,7 +22,7 @@
 // ------------------------------------------------------------------------------------------------------------
 
 
-private ["_ai","_aikiller","_aikilled_type","_aikilled_name","_aikilled_side","_aikilled_group_side","_aikiller_group_side","_aikiller_type","_aikiller_name","_aikiller_side","_humanity","_humankills","_banditkills"];
+private ["_ai","_aikiller","_aikilled_type","_aikilled_side","_aikilled_group_side","_aikiller_group_side","_aikiller_type","_aikiller_name","_aikiller_side","_humanity","_humankills","_banditkills"];
 
 if (!isServer) exitWith {}; // only run this on the server
 
@@ -30,7 +30,6 @@ _ai = _this select 0;
 _aikiller = _this select 1;
 
 _aikilled_type = typeof _ai;
-_aikilled_name = name _ai;
 _aikilled_side = side _ai;
 _aikilled_group_side = side (group _ai);
 
@@ -39,9 +38,9 @@ _aikiller_name = name _aikiller;
 _aikiller_side = side _aikiller;
 _aikiller_group_side = side (group _aikiller);
 
-if (SAR_EXTREME_DEBUG) then {
-    diag_log format["SAR_EXTREME_DEBUG: AI killed - Type: %1 Name: %2 Side: %3 Group Side: %4",_aikilled_type,_aikilled_name, _aikilled_side,_aikilled_group_side];
-    diag_log format["SAR_EXTREME_DEBUG: AI Killer - Type: %1 Name: %2 Side: %3 Group Side: %4",_aikiller_type,_aikiller_name, _aikiller_side,_aikiller_group_side];
+if (SAR_HITKILL_DEBUG) then {
+    diag_log format["SAR_HITKILL_DEBUG: AI killed - Type: %1 Side: %3 Group Side: %4",_aikilled_type, _aikilled_side,_aikilled_group_side];
+    diag_log format["SAR_HITKILL_DEBUG: AI Killer - Type: %1 Name: %2 Side: %3 Group Side: %4",_aikiller_type,_aikiller_name, _aikiller_side,_aikiller_group_side];
 };
 
 
