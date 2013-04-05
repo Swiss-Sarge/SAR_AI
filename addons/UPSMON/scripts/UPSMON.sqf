@@ -2256,7 +2256,7 @@ while {_loop} do {
 
 			
 			//Get in combat vehicles
-			if (!_gothit && !_GetIn_NearestVehicles && _fightmode != "walk" && _isSoldier) then {					
+			if (!_gothit && !_GetIn_NearestVehicles && _fightmode != "walk" && _isSoldier && !_noveh) then {					
 				_dist2 = _dist / 4;
 				if ( _dist2 <= 100 ) then {
 					_unitsIn = [];					
