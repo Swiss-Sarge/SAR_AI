@@ -16,7 +16,7 @@
 //   last modified: 1.4.2013
 // ---------------------------------------------------------------------------------------------------------
 
-    private ["_dummy","_i","_gridwidth","_markername","_triggername","_trig_act_stmnt","_trig_deact_stmnt","_trig_cond","_emptyarr","_pos"];
+    private ["_i","_gridwidth","_markername","_triggername","_trig_act_stmnt","_trig_deact_stmnt","_trig_cond","_emptyarr","_pos"];
 
     if (!isServer) exitWith {}; // only run this on the server
     
@@ -26,56 +26,6 @@
     sleep 15;
 
     if(SAR_DEBUG) then {diag_log "SAR_DEBUG: Initialized fix for faction vehicle issue.";};
-    
-    
-    SAR_grp_friendly = createGroup SAR_AI_friendly_side;
-    SAR_grp_friendly setVariable ["SAR_protect",true,true];
-     
-    SAR_grp_unfriendly = createGroup SAR_AI_unfriendly_side;
-    SAR_grp_unfriendly setVariable ["SAR_protect",true,true];
-    
-    setGroupIconsVisible [false,false];
-     
-     // SARGE TODO: find a safe spot for all maps to store the 2 dummies
-     // this will take some time, but is only run once at the server start
-    _dummy = SAR_grp_unfriendly createunit ["Rocket_DZ", [2500, 13100, 0], [],0, "FORM"];
-
-    [nil, _dummy, "per", rhideObject, true] call RE;
-    [nil, _dummy, "per", rallowDamage, false] call RE;
-    _dummy disableAI "FSM";
-    _dummy disableAI "ANIM";
-    _dummy disableAI "MOVE";
-    _dummy disableAI "TARGET";
-    _dummy disableAI "AUTOTARGET";
-    _dummy setVehicleInit "this setIdentity 'id_SAR';this hideObject true;this allowDamage false;";
-    [_dummy] joinSilent SAR_grp_unfriendly;
-    SAR_grp_unfriendly selectLeader _dummy;
-
-    // set variable to group so it doesnt get cleaned up
-    SAR_grp_unfriendly setVariable ["SAR_protect",true,true];
-
-    
-    _dummy = SAR_grp_friendly createunit ["Rocket_DZ", [2500, 13100, 0], [],0, "FORM"];
-
-    [nil, _dummy, "per", rhideObject, true] call RE;
-    [nil, _dummy, "per", rallowDamage, false] call RE;
-    _dummy disableAI "FSM";
-    _dummy disableAI "ANIM";
-    _dummy disableAI "MOVE";
-    _dummy disableAI "TARGET";
-    _dummy disableAI "AUTOTARGET";
-    _dummy setVehicleInit "this setIdentity 'id_SAR';this hideObject true;this allowDamage false;";
-    [_dummy] joinSilent SAR_grp_friendly;
-    SAR_grp_friendly selectLeader _dummy;
-
-    // set variable to group so it doesnt get cleaned up
-    SAR_grp_friendly setVariable ["SAR_protect",true,true];
-    
-    if(SAR_DEBUG) then {
-        diag_log format["Created a friendly placeholder group: %1",SAR_grp_friendly];
-        diag_log format["Created an unfriendly placeholder group: %1",SAR_grp_unfriendly];
-    };
-        
 
     //[dayz_serverObjectMonitor] call SAR_debug_array;
     
@@ -111,7 +61,7 @@
 
                 _markername = format["SAR_mar_trig_%1",_i];
 
-                _pos = getPos _x;
+                _pos = getPosASL _x;
                 _this = createMarker[_markername,_pos];
 
                 _this setMarkerAlpha 1;
@@ -134,38 +84,3 @@
     
     } foreach dayz_serverObjectMonitor;
     
-    
-    //diag_log format["--------------------------------------------",nil];
-    //diag_log format["SAR_grp_friendly = %1",SAR_grp_friendly];
-    //diag_log format["SAR_grp_unfriendly = %1",SAR_grp_unfriendly];
-    //diag_log format["--------------------------------------------",nil];    
-    
-    /*
-    _testgrp = createGroup west;
-
-    _this = _testgrp createunit ["Rocket_DZ", [2500, 13100, 0], [], 0.5, "FORM"];
-
-    _this setVehicleInit "this setIdentity 'id_SAR';";
-
-    // change to getnearest
-    _this moveInDriver (_cars select 0); 
-  
-
-    [_this] joinsilent _testgrp;
-    _testgrp selectLeader _this;
-
-    _this disableAI "MOVE";
-
-    _this = _testgrp createunit ["Rocket_DZ", [2500, 13100, 0], [], 0.5, "FORM"];
-    _this setVehicleInit "this setIdentity 'id_SAR';";
-    _this moveInCargo (_cars select 0); 
-    [_this] joinsilent _testgrp;
-    _this disableAI "MOVE";
-
-    _this = _testgrp createunit ["Rocket_DZ", [2500, 13100, 0], [], 0.5, "FORM"];
-    _this setVehicleInit "this setIdentity 'id_SAR';";
-    _this moveInCargo (_cars select 0); 
-    [_this] joinsilent _testgrp;
-    _this disableAI "MOVE";
-
-*/
