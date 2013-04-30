@@ -2611,12 +2611,15 @@ if (_respawn && _respawnmax > 0 &&  !_surrended  && _allow_respawn) then {
     
     if (_unittype in SAR_leader_sold_list) then {
         _grouptype = "soldiers";
+        _leaderskills = SAR_leader_sold_skills;
     } else {
         if (_unittype in SAR_leader_surv_list) then {
             _grouptype = "survivors";
+            _leaderskills=SAR_leader_surv_skills;
         } else {
             if (_unittype in SAR_leader_band_list) then {
                 _grouptype = "bandits";
+                _leaderskills=SAR_leader_band_skills;
             };
         };
     };
@@ -2638,10 +2641,18 @@ if (_respawn && _respawnmax > 0 &&  !_surrended  && _allow_respawn) then {
     
     _leader_weapon_names = ["leader"] call SAR_unit_loadout_weapons;
     _leader_items = ["leader"] call SAR_unit_loadout_items;
-    _leader_tools = ["leader"] call SAR_unit_loadout_tools;    
+    _leader_tools = ["leader"] call SAR_unit_loadout_tools;
+
+    
 
     [_leader,_leader_weapon_names,_leader_items,_leader_tools] call SAR_unit_loadout;
 
+    // set skills of the leader
+    {
+        _leader setskill [_x select 0,(_x select 1 +(floor(random 2) * (_x select 2)))];
+    } foreach _leaderskills;
+
+    
     if(_is_heli_group) then {
         _leader setVehicleInit "null = [this] execVM 'addons\SARGE\SAR_trace_from_vehicle.sqf';this setIdentity 'id_SAR_sold_lead';";    
     } else {
@@ -2689,30 +2700,36 @@ if (_respawn && _respawnmax > 0 &&  !_surrended  && _allow_respawn) then {
                 {
                     if (_x in SAR_soldier_sold_list) then {
                         _unittype = "soldier";
+                        _unitskills = SAR_soldier_sold_skills;
                     };
 
                     if (_x in SAR_sniper_sold_list) then {
                         _unittype = "sniper";
+                        _unitskills = SAR_sniper_sold_skills;
                     };
                 };
                 case "survivors":
                 {
                     if (_x in SAR_soldier_surv_list) then {
                         _unittype = "soldier";
+                        _unitskills = SAR_soldier_surv_skills;
                     };
 
                     if (_x in SAR_sniper_surv_list) then {
                         _unittype = "sniper";
+                        _unitskills = SAR_sniper_surv_skills;
                     };
                 };
                 case "bandits":
                 {
                     if (_x in SAR_soldier_band_list) then {
                         _unittype = "soldier";
+                        _unitskills = SAR_soldier_band_skills;                        
                     };
 
                     if (_x in SAR_sniper_band_list) then {
                         _unittype = "sniper";
+                        _unitskills = SAR_sniper_band_skills;                        
                     };
                 };
             };
@@ -2721,6 +2738,11 @@ if (_respawn && _respawnmax > 0 &&  !_surrended  && _allow_respawn) then {
             _unit_tools = [_unittype] call SAR_unit_loadout_tools;                                    
 
             [_newunit,_unit_weapon_names,_unit_items,_unit_tools] call SAR_unit_loadout;
+
+            // set skills of the leader
+            {
+                _newunit setskill [_x select 0,(_x select 1 +(floor(random 2) * (_x select 2)))];
+            } foreach _unitskills;
     
             _newunit setVehicleInit "null = [this] execVM 'addons\SARGE\SAR_trace_entities.sqf';this setIdentity 'id_SAR';";
             
