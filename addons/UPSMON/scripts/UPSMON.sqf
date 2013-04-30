@@ -2739,7 +2739,7 @@ if (_respawn && _respawnmax > 0 &&  !_surrended  && _allow_respawn) then {
 
             [_newunit,_unit_weapon_names,_unit_items,_unit_tools] call SAR_unit_loadout;
 
-            // set skills of the leader
+            // set skills of the unit
             {
                 _newunit setskill [_x select 0,(_x select 1 +(floor(random 2) * (_x select 2)))];
             } foreach _unitskills;
